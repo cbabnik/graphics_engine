@@ -3,6 +3,7 @@
 
 #include "eventhandler.h"
 #include "renderarea.h"
+#include "renderer.h"
 
 #include <string>
 
@@ -15,7 +16,7 @@ public:
    void handleEvent(std::string eventType);
 
 private:
-   RenderArea *renderArea;
+   Renderer *renderer;
 
 };
 

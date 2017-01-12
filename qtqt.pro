@@ -9,10 +9,12 @@ SOURCES += \
    main.cpp \
    renderwindow.cpp \
    renderarea.cpp \
-   client.cpp
+   client.cpp \
+   renderer.cpp
 
 HEADERS += \
    eventhandler.h \
    renderwindow.h \
    renderarea.h \
-   client.h
+   client.h \
+   renderer.h
