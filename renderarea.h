@@ -10,7 +10,7 @@ class RenderArea : public QWidget
    Q_OBJECT
 
 public:
-   const int PICTURE_SIZE = 800;
+   const static int PICTURE_SIZE = 800;
 
    RenderArea();
 
