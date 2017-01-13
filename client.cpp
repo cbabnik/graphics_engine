@@ -5,8 +5,11 @@
 
 #include "client.h"
 
+#include "resources.h"
+
 #include <cstdlib>
 #include <cstdio>
+
 
 // Construction
 Client::Client(RenderArea *ra) {
