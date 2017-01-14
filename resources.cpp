@@ -150,7 +150,7 @@ Point3D Point3D::operator-(const Point3D& rhs) const{
    return Point3D(x-rhs.x, y-rhs.y, z-rhs.z);
 }
 Point3D Point3D::operator+(const Point3D& rhs) const{
-   return Point3D(x+rhs.x, y+rhs.y, z-rhs.z);
+   return Point3D(x+rhs.x, y+rhs.y, z+rhs.z);
 }
 Point3DF Point3D::operator*(const float& rhs) const{
    return Point3DF(x*rhs, y*rhs, z*rhs);
@@ -224,7 +224,7 @@ Point3DF Point3DF::operator-(const Point3DF& rhs) const{
    return Point3DF(x-rhs.x, y-rhs.y, z-rhs.z);
 }
 Point3DF Point3DF::operator+(const Point3DF& rhs) const{
-   return Point3D(x+rhs.x, y+rhs.y, z-rhs.z);
+   return Point3D(x+rhs.x, y+rhs.y, z+rhs.z);
 }
 Point3DF Point3DF::operator*(const float& rhs) const{
    return Point3DF(x*rhs, y*rhs, z*rhs);
@@ -270,10 +270,10 @@ bool Point3DF::operator>(const Point3DF& rhs) const{
    return z>rhs.z;
 }
 bool Point3DF::operator<=(const Point3DF& rhs) const{
-   return z<=rhs.z;
+   return rhs.z-z > -TOLERANCE;
 }
 bool Point3DF::operator>=(const Point3DF& rhs) const{
-   return z>=rhs.z;
+   return z-rhs.z > -TOLERANCE;
 }
 Point3D Point3DF::truncate() const{
    return Point3D(int(x), int(y), int(z));
