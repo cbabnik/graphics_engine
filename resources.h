@@ -29,21 +29,21 @@ struct Point2D
    int x;
    int y;
    // member access
-   inline       int& operator[](int idx);
-   inline const int& operator[](int idx) const;
+         int& operator[](int idx);
+   const int& operator[](int idx) const;
    // arithmetic
-   inline Point2D  operator- (const Point2D& rhs) const;
-   inline Point2D  operator+ (const Point2D& rhs) const;
-   inline Point2DF operator* (const float&   rhs) const;
-   inline Point2D& operator-=(const Point2D& rhs);
-   inline Point2D& operator+=(const Point2D& rhs);
-   inline int      dot       (const Point2D& other) const;
+   Point2D  operator- (const Point2D& rhs) const;
+   Point2D  operator+ (const Point2D& rhs) const;
+   Point2DF operator* (const float&   rhs) const;
+   Point2D& operator-=(const Point2D& rhs);
+   Point2D& operator+=(const Point2D& rhs);
+   int      dot       (const Point2D& other) const;
    // comparison
-   inline bool operator==(const Point2D& rhs) const;
-   inline bool operator!=(const Point2D& rhs) const;
+   bool operator==(const Point2D& rhs) const;
+   bool operator!=(const Point2D& rhs) const;
    // other
-   inline float length() const;
-   inline Point2DF normalize() const;
+   float length() const;
+   Point2DF normalize() const;
 };
 struct Point2DF
 {
@@ -56,25 +56,25 @@ struct Point2DF
    float x;
    float y;
    // member access
-   inline       float& operator[](int idx);
-   inline const float& operator[](int idx) const;
+         float& operator[](int idx);
+   const float& operator[](int idx) const;
    // arithmetic
-   inline Point2DF  operator- (const Point2DF& rhs) const;
-   inline Point2DF  operator+ (const Point2DF& rhs) const;
-   inline Point2DF  operator* (const float&    rhs) const;
-   inline Point2DF& operator-=(const Point2DF& rhs);
-   inline Point2DF& operator+=(const Point2DF& rhs);
-   inline Point2DF& operator*=(const float&    rhs);
-   inline float     dot       (const Point2DF& other) const;
+   Point2DF  operator- (const Point2DF& rhs) const;
+   Point2DF  operator+ (const Point2DF& rhs) const;
+   Point2DF  operator* (const float&    rhs) const;
+   Point2DF& operator-=(const Point2DF& rhs);
+   Point2DF& operator+=(const Point2DF& rhs);
+   Point2DF& operator*=(const float&    rhs);
+   float     dot       (const Point2DF& other) const;
    // comparison
-   inline bool operator==(const Point2DF& rhs) const;
-   inline bool operator!=(const Point2DF& rhs) const;
+   bool operator==(const Point2DF& rhs) const;
+   bool operator!=(const Point2DF& rhs) const;
    // rounding
-   inline Point2D truncate() const;
-   inline Point2D round() const;
+   Point2D truncate() const;
+   Point2D round() const;
    // other
-   inline float length() const;
-   inline Point2DF normalize() const;
+   float length() const;
+   Point2DF normalize() const;
 };
 struct Point3D
 {
@@ -86,26 +86,26 @@ struct Point3D
    int y;
    int z;
    // member access
-   inline       int& operator[](int idx);
-   inline const int& operator[](int idx) const;
+         int& operator[](int idx);
+   const int& operator[](int idx) const;
    // arithmetic
-   inline Point3D  operator- (const Point3D& rhs) const;
-   inline Point3D  operator+ (const Point3D& rhs) const;
-   inline Point3DF operator* (const float&   rhs) const;
-   inline Point3D& operator-=(const Point3D& rhs);
-   inline Point3D& operator+=(const Point3D& rhs);
-   inline int      dot       (const Point3D& other) const;
-   inline Point3D  cross     (const Point3D& other) const;
+   Point3D  operator- (const Point3D& rhs) const;
+   Point3D  operator+ (const Point3D& rhs) const;
+   Point3DF operator* (const float&   rhs) const;
+   Point3D& operator-=(const Point3D& rhs);
+   Point3D& operator+=(const Point3D& rhs);
+   int      dot       (const Point3D& other) const;
+   Point3D  cross     (const Point3D& other) const;
    // comparison
-   inline bool operator==(const Point3D& rhs) const;
-   inline bool operator!=(const Point3D& rhs) const;
-   inline bool operator< (const Point3D& rhs) const;
-   inline bool operator> (const Point3D& rhs) const;
-   inline bool operator<=(const Point3D& rhs) const;
-   inline bool operator>=(const Point3D& rhs) const;
+   bool operator==(const Point3D& rhs) const;
+   bool operator!=(const Point3D& rhs) const;
+   bool operator< (const Point3D& rhs) const;
+   bool operator> (const Point3D& rhs) const;
+   bool operator<=(const Point3D& rhs) const;
+   bool operator>=(const Point3D& rhs) const;
    // other
-   inline float length() const;
-   inline Point3DF normalize() const;
+   float length() const;
+   Point3DF normalize() const;
 };
 struct Point3DF
 {
@@ -120,34 +120,34 @@ struct Point3DF
    float y;
    float z;
    // member access
-   inline       float& operator[](int idx);
-   inline const float& operator[](int idx) const;
+         float& operator[](int idx);
+   const float& operator[](int idx) const;
    // arithmetic
-   inline Point3DF  operator- (const Point3DF& rhs) const;
-   inline Point3DF  operator+ (const Point3DF& rhs) const;
-   inline Point3DF  operator* (const float&    rhs) const;
-   inline Point3DF& operator-=(const Point3DF& rhs);
-   inline Point3DF& operator+=(const Point3DF& rhs);
-   inline Point3DF& operator*=(const float&    rhs);
-   inline float     dot       (const Point3DF& other) const;
-   inline Point3DF  cross     (const Point3DF& other) const;
+   Point3DF  operator- (const Point3DF& rhs) const;
+   Point3DF  operator+ (const Point3DF& rhs) const;
+   Point3DF  operator* (const float&    rhs) const;
+   Point3DF& operator-=(const Point3DF& rhs);
+   Point3DF& operator+=(const Point3DF& rhs);
+   Point3DF& operator*=(const float&    rhs);
+   float     dot       (const Point3DF& other) const;
+   Point3DF  cross     (const Point3DF& other) const;
    // comparison
-   inline bool operator==(const Point3DF& rhs) const;
-   inline bool operator!=(const Point3DF& rhs) const;
-   inline bool operator< (const Point3DF& rhs) const;
-   inline bool operator> (const Point3DF& rhs) const;
-   inline bool operator<=(const Point3DF& rhs) const;
-   inline bool operator>=(const Point3DF& rhs) const;
+   bool operator==(const Point3DF& rhs) const;
+   bool operator!=(const Point3DF& rhs) const;
+   bool operator< (const Point3DF& rhs) const;
+   bool operator> (const Point3DF& rhs) const;
+   bool operator<=(const Point3DF& rhs) const;
+   bool operator>=(const Point3DF& rhs) const;
    // rounding
-   inline Point3D truncate() const;
-   inline Point3D round() const;
+   Point3D truncate() const;
+   Point3D round() const;
    // other
-   inline float length() const;
-   inline Point3DF normalize() const;
+   float length() const;
+   Point3DF normalize() const;
 };
-inline Point2DF operator*(const float& lhs, const Point2D&  rhs);
-inline Point2DF operator*(const float& lhs, const Point2DF& rhs);
-inline Point3DF operator*(const float& lhs, const Point3D&  rhs);
-inline Point3DF operator*(const float& lhs, const Point3DF& rhs);
+Point2DF operator*(const float& lhs, const Point2D&  rhs);
+Point2DF operator*(const float& lhs, const Point2DF& rhs);
+Point3DF operator*(const float& lhs, const Point3D&  rhs);
+Point3DF operator*(const float& lhs, const Point3DF& rhs);
 
 #endif // RESOURCES_H
