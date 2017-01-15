@@ -9,6 +9,7 @@ class TestResources: public QObject
 private slots:
    void point_comparison();
    void point_arithmetic();
+   void point_member_access();
    void point_other();
    void combined();
 };
@@ -233,7 +234,78 @@ void TestResources::point_arithmetic(){
    }
 }
 
+void TestResources::point_member_access(){
+   Point2D  p2d(1,2);
+   Point2DF p2df(1,2);
+   Point3D  p3d(1,2,3);
+   Point3DF p3df(1,2,3);
+   p2d[0] += 10;
+   p2d[1] += 20;
+   p2df[0] += 10;
+   p2df[1] += 20;
+   p3d[0] += 10;
+   p3d[1] += 20;
+   p3d[2] += 30;
+   p3df[0] += 10;
+   p3df[1] += 20;
+   p3df[2] += 30;
+
+   QVERIFY( p2d[0] == 11 );
+   QVERIFY( p2d[1] == 22 );
+   QVERIFY( abs(p2df[0] - 11) < Point2DF::TOLERANCE );
+   QVERIFY( abs(p2df[1] - 22) < Point2DF::TOLERANCE );
+   QVERIFY( p3d[0] == 11 );
+   QVERIFY( p3d[1] == 22 );
+   QVERIFY( p3d[2] == 33 );
+   QVERIFY( abs(p3df[0] - 11) < Point3DF::TOLERANCE );
+   QVERIFY( abs(p3df[1] - 22) < Point3DF::TOLERANCE );
+   QVERIFY( abs(p3df[2] - 33) < Point3DF::TOLERANCE );
+}
+
 void TestResources::point_other(){
+   // Rounding
+   {
+   Point2DF p1(1.2, 1.8), p2(.5,-.5), p3(-1.2, -1.8);
+   Point2D r1 = p1.round();
+   Point2D r2 = p2.round();
+   Point2D r3 = p3.round();
+   Point2D t1 = p1.truncate();
+   Point2D t2 = p2.truncate();
+   Point2D t3 = p3.truncate();
+
+   QVERIFY( r1.x == 1 );
+   QVERIFY( r1.y == 2 );
+   QVERIFY( r2.x == 1 );
+   QVERIFY( r2.y == -1 );
+   QVERIFY( r3.x == -1 );
+   QVERIFY( r3.y == -2 );
+   QVERIFY( t1.x == 1 );
+   QVERIFY( t1.y == 1 );
+   QVERIFY( t2.x == 0 );
+   QVERIFY( t2.y == 0 );
+   QVERIFY( t3.x == -1 );
+   QVERIFY( t3.y == -1 );
+   }
+   {
+   Point3DF p1(1.2, 1.8, -.5), p2(-1.2, -1.8, .5);
+   Point3D r1 = p1.round();
+   Point3D r2 = p2.round();
+   Point3D t1 = p1.truncate();
+   Point3D t2 = p2.truncate();
+
+   QVERIFY( r1.x == 1 );
+   QVERIFY( r1.y == 2 );
+   QVERIFY( r1.z == -1 );
+   QVERIFY( r2.x == -1 );
+   QVERIFY( r2.y == -2 );
+   QVERIFY( r2.z == 1 );
+   QVERIFY( t1.x == 1 );
+   QVERIFY( t1.y == 1 );
+   QVERIFY( t1.z == 0 );
+   QVERIFY( t2.x == -1 );
+   QVERIFY( t2.y == -1 );
+   QVERIFY( t2.z == 0 );
+   }
 
 }
 
