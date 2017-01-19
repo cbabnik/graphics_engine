@@ -3,10 +3,14 @@
 #include "resources.h"
 #include <stdexcept>
 #include <climits>
+#include <cstdio>
 
 class TestResources: public QObject
 {
    Q_OBJECT
+
+private:
+   static constexpr float TOLERANCE = 0.0001;
 
 private slots:
    void point_comparison();
@@ -15,7 +19,14 @@ private slots:
    void point_rounding();
    void point_normalization();
    void point_constructors();
-   void combined();
+   void point_combined();
+   void matrix_constructors();
+   void matrix_inversion();
+   void matrix_transpose();
+   void matrix_multiplication();
+   void matrix_member_access();
+   void matrix_combined();
+   void interaction_matrix_point();
 
 };
 
@@ -372,7 +383,7 @@ void TestResources::point_constructors(){
    QVERIFY( abs(p3df2.z - 3) < Point3DF::TOLERANCE );
 }
 
-void TestResources::combined(){
+void TestResources::point_combined(){
   {
    Point2D p(3,4);
    QVERIFY( (.2*p) == p.normalize() );
@@ -415,6 +426,212 @@ void TestResources::combined(){
    QVERIFY( Point3D(6,8,24) == p2.truncate() );
    QVERIFY( Point3D(6,8,24) == p2.round() );
   }
+}
+
+void TestResources::matrix_member_access(){
+   Matrix M;
+   M.m[2][3] = 2.0;
+   QVERIFY( abs(M[2][3] - 2) < TOLERANCE );
+}
+
+void TestResources::matrix_transpose(){
+   Matrix M;
+   M.m[2][3] = 2.0;
+   M = M.transpose();
+   QVERIFY( abs(M[2][2] - 1) < TOLERANCE );
+   QVERIFY( abs(M[2][3] - 0) < TOLERANCE );
+   QVERIFY( abs(M[3][2] - 2) < TOLERANCE );
+}
+
+void TestResources::matrix_constructors(){
+   Matrix Mt = Matrix::TranslationMatrix(5, 10, 15);
+   Matrix Ms = Matrix::ScaleMatrix(5, 10, 15);
+
+   Matrix Mx = Matrix::RotationMatrix('x', 30);
+   Matrix My = Matrix::RotationMatrix('y', 30);
+   Matrix Mz = Matrix::RotationMatrix('z', 30);
+
+   QVERIFY( abs(Mt.m[0][3] - 5 ) < Matrix::TOLERANCE );
+   QVERIFY( abs(Mt.m[0][0] - 1 ) < Matrix::TOLERANCE );
+   QVERIFY( abs(Mt.m[1][3] - 10) < Matrix::TOLERANCE );
+   QVERIFY( abs(Mt.m[2][3] - 15) < Matrix::TOLERANCE );
+   QVERIFY( abs(Mt.m[3][3] - 1 ) < Matrix::TOLERANCE );
+
+   QVERIFY( abs(Ms.m[0][0] - 5 ) < Matrix::TOLERANCE );
+   QVERIFY( abs(Ms.m[0][1] - 0 ) < Matrix::TOLERANCE );
+   QVERIFY( abs(Ms.m[1][1] - 10) < Matrix::TOLERANCE );
+   QVERIFY( abs(Ms.m[2][2] - 15) < Matrix::TOLERANCE );
+   QVERIFY( abs(Ms.m[3][3] - 1 ) < Matrix::TOLERANCE );
+
+   QVERIFY( abs(Mx.m[0][0] - 1     ) < Matrix::TOLERANCE );
+   QVERIFY( abs(Mx.m[1][1] - 0.8660) < Matrix::TOLERANCE );
+   QVERIFY( abs(Mx.m[1][2] - (-0.5)) < Matrix::TOLERANCE );
+   QVERIFY( abs(Mx.m[2][1] - 0.5   ) < Matrix::TOLERANCE );
+   QVERIFY( abs(Mx.m[2][2] - 0.8660) < Matrix::TOLERANCE );
+
+   QVERIFY( abs(My.m[1][1] - 1     ) < Matrix::TOLERANCE );
+   QVERIFY( abs(My.m[2][2] - 0.8660) < Matrix::TOLERANCE );
+   QVERIFY( abs(My.m[2][0] - 0.5   ) < Matrix::TOLERANCE );
+   QVERIFY( abs(My.m[0][2] - (-0.5)) < Matrix::TOLERANCE );
+   QVERIFY( abs(My.m[0][0] - 0.8660) < Matrix::TOLERANCE );
+
+   QVERIFY( abs(Mz.m[2][2] - 1     ) < Matrix::TOLERANCE );
+   QVERIFY( abs(Mz.m[0][0] - 0.8660) < Matrix::TOLERANCE );
+   QVERIFY( abs(Mz.m[0][1] - 0.5   ) < Matrix::TOLERANCE );
+   QVERIFY( abs(Mz.m[1][0] - (-0.5)) < Matrix::TOLERANCE );
+   QVERIFY( abs(Mz.m[1][1] - 0.8660) < Matrix::TOLERANCE );
+
+   QVERIFY_EXCEPTION_THROWN( Matrix('A'), std::invalid_argument );
+}
+
+void TestResources::matrix_inversion(){
+   Matrix M, expectedResult;
+   M.m[0][0] = 2;
+   M.m[0][1] = 3;
+   M.m[0][2] = 2.7;
+   M.m[0][3] = 23;
+   M.m[1][0] = 5.5;
+   M.m[1][1] = 4;
+   M.m[1][2] = 5;
+   M.m[1][3] = 1.5;
+   M.m[2][0] = 2.3;
+   M.m[2][1] = 1.1;
+   M.m[2][2] = 10;
+   M.m[2][3] = 2.9;
+   expectedResult.m[0][0] = -0.49282;
+   expectedResult.m[0][1] = 0.38611;
+   expectedResult.m[0][2] = -0.05999;
+   expectedResult.m[0][3] = 10.92971;
+   expectedResult.m[1][0] = 0.62138;
+   expectedResult.m[1][1] = -0.19698;
+   expectedResult.m[1][2] = -0.06928;
+   expectedResult.m[1][3] = -13.7954;
+   expectedResult.m[2][0] = 0.04499;
+   expectedResult.m[2][1] = -0.06713;
+   expectedResult.m[2][2] = 0.12141;
+   expectedResult.m[2][3] = -1.28633;
+
+   QVERIFY( M.invert() == expectedResult );
+}
+
+void TestResources::matrix_multiplication(){
+   Matrix M;
+   M[0][0] = 1;
+   M[0][1] = 2;
+   M[0][2] = 3;
+   M[1][0] = 4;
+   M[1][1] = 5;
+   M[1][2] = 6;
+   M[2][0] = 7;
+   M[2][1] = 8;
+   M[2][2] = 9;
+   M[0][3] = 2;
+   M[1][3] = 5;
+   M[2][3] = 8;
+   Matrix M2;
+   M2[0][0] = 1;
+   M2[0][1] = 1;
+   M2[0][2] = 2;
+   M2[1][0] = 1.5;
+   M2[1][1] = 1.5;
+   M2[1][2] = 1.5;
+   M2[2][0] = 2;
+   M2[2][1] = 1;
+   M2[2][2] = 3;
+   M2[0][3] = 2;
+   M2[1][3] = 1.5;
+   M2[2][3] = 4;
+   Matrix expectedResult('0');
+   expectedResult.m[0][0] = 10;
+   expectedResult.m[0][1] = 7;
+   expectedResult.m[0][2] = 14;
+   expectedResult.m[0][3] = 19;
+   expectedResult.m[1][0] = 23.5;
+   expectedResult.m[1][1] = 17.5;
+   expectedResult.m[1][2] = 33.5;
+   expectedResult.m[1][3] = 44.5;
+   expectedResult.m[2][0] = 37;
+   expectedResult.m[2][1] = 28;
+   expectedResult.m[2][2] = 53;
+   expectedResult.m[2][3] = 70;
+}
+
+void TestResources::matrix_combined(){
+   QVERIFY( Matrix::RotationMatrix('x', 30) == Matrix::RotationMatrix('X', 30) );
+   QVERIFY( Matrix::RotationMatrix('y', 30) == Matrix::RotationMatrix('Y', 30) );
+   QVERIFY( Matrix::RotationMatrix('z', 30) == Matrix::RotationMatrix('Z', 30) );
+   QVERIFY( Matrix('I') == Matrix('i') );
+   QVERIFY( Matrix('z') == Matrix('0') );
+   QVERIFY( Matrix('z') == Matrix('Z') );
+   QVERIFY( Matrix('0') != Matrix() );
+   QVERIFY( Matrix('v') == Matrix('V') );
+   QVERIFY( Matrix('f') == Matrix('F') );
+   QVERIFY( Matrix('V') == Matrix('F') );
+   QVERIFY( Matrix('h') == Matrix('H') );
+   QVERIFY( Matrix('m') == Matrix('M') );
+   QVERIFY( Matrix('m') == Matrix('H') );
+
+   Matrix M;
+   M[0][0] = 1;
+   M[0][1] = 2;
+   M[0][2] = 3;
+   M[1][0] = 4;
+   M[1][1] = 5;
+   M[1][2] = 6;
+   M[2][0] = 7;
+   M[2][1] = 8;
+   M[2][2] = 9;
+   M[0][3] = 2;
+   M[1][3] = 5;
+   M[2][3] = 8;
+   M[3][0] = 9;
+   M[3][1] = 4;
+   M[3][2] = 1;
+   Matrix M2;
+   M2[0][0] = 1.5;
+   M2[0][1] = 2.1;
+   M2[0][2] = 0.1;
+   M2[1][0] = 4.9;
+   M2[1][1] = 5;
+   M2[1][2] = 10;
+   M2[2][0] = 17;
+   M2[2][1] = .5;
+   M2[2][2] = 5.5;
+   M2[0][3] = 4;
+   M2[1][3] = 4;
+   M2[2][3] = 1.8;
+   M2[3][0] = 8.9;
+   M2[3][1] = 4;
+   M2[3][2] = 1;
+
+   QVERIFY( M.invert() * M == Matrix('I') );
+   QVERIFY( M.invert() * M2.invert() == (M2*M).invert() );
+   QVERIFY( M.transpose() * M2.transpose() == (M2*M).transpose() );
+}
+
+void TestResources::interaction_matrix_point(){
+   Point3D p(10,100,1000);
+   Matrix M;
+   M[0][0] = 1;
+   M[0][1] = 2;
+   M[0][2] = 3;
+   M[1][0] = 4;
+   M[1][1] = 5;
+   M[1][2] = 6;
+   M[2][0] = 7;
+   M[2][1] = 8;
+   M[2][2] = 9;
+   M[0][3] = 2;
+   M[1][3] = 5;
+   M[2][3] = 8;
+   M[3][0] = 9;
+   M[3][1] = 4;
+   M[3][2] = 1;
+   Point3DF expectedResultA(3212,6545,9878);
+   Point3DF expectedResultB(7419,8524,9631);
+
+   QVERIFY( M*p == expectedResultA );
+   QVERIFY( p*M == expectedResultB );
 }
 
 QTEST_MAIN(TestResources)
