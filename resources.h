@@ -6,7 +6,7 @@
 #ifndef RESOURCES_H
 #define RESOURCES_H
 
-// Declaration of various structs used by my graphics_engine
+// Declaration of various data structures used by my graphics_engine
 // * I'm considering turning this into a git submodule
 
 // forward declaration
@@ -14,6 +14,7 @@ struct Point2D;
 struct Point2DF;
 struct Point3D;
 struct Point3DF;
+class Matrix;
 
 // Points (or vectors)
 // + F indicates float form, as opposed to int
@@ -149,5 +150,46 @@ Point2DF operator*(const float& lhs, const Point2D&  rhs);
 Point2DF operator*(const float& lhs, const Point2DF& rhs);
 Point3DF operator*(const float& lhs, const Point3D&  rhs);
 Point3DF operator*(const float& lhs, const Point3DF& rhs);
+
+// 4 by 4 matrix
+// Used as a 3D homogenous transformation matrix
+// The bottom row is often assumed to be [0, 0, 0, 1]
+class Matrix
+{
+public:
+   // constants
+   static constexpr float TOLERANCE = 0.01;
+   // constructors
+   Matrix() : Matrix('I') {};
+   Matrix(char type);
+   // false constructors
+   static Matrix TranslationMatrix(float x, float y, float z);
+   static Matrix ScaleMatrix(float x, float y, float z);
+   static Matrix RotationMatrix(char axis, float degrees); // RH rotation on LH CHS
+   // members
+   float m[4][4];
+   // member access
+         float* operator[](int idx);
+   const float* operator[](int idx) const;
+   // comparison
+   bool operator==(const Matrix& rhs) const;
+   bool operator!=(const Matrix& rhs) const;
+   // multiplication
+   Matrix   operator* (const Matrix& rhs) const;
+   Point3DF operator* (const Point3DF& rhs) const;
+   Point3DF operator* (const Point3D& rhs) const;
+   Matrix&  operator*=(const Matrix& rhs);
+   // transformations
+   Matrix translate(float x, float y, float z) const;
+   Matrix scale(float x, float y, float z) const;
+   Matrix rotate(char axis, float degrees) const; // RH rotation on LH CHS
+   // other
+   Matrix transpose() const;
+   Matrix invert() const;
+   // debugging
+   void print() const;
+};
+Point3DF operator*(const Point3DF& lhs, const Matrix& rhs);
+Point3DF operator*(const Point3D&  lhs, const Matrix& rhs);
 
 #endif // RESOURCES_H
