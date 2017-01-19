@@ -7,6 +7,7 @@
 
 #include <stdexcept>
 #include <cmath>
+#include <cstdio>
 
 // Implementation of various structs used by my graphics_engine
 
@@ -301,5 +302,239 @@ Point3DF operator*(const float& lhs, const Point3D&  rhs){
 }
 Point3DF operator*(const float& lhs, const Point3DF&  rhs){
    return Point3DF(lhs*rhs.x, lhs*rhs.y, lhs*rhs.z);
+}
+
+// ------
+// Matrix
+// ------
+Matrix::Matrix(char type){
+   for(int i = 0; i < 4; i++)
+      for(int j = 0; j < 4; j++)
+         m[i][j] = 0;
+   switch(type)
+   {
+   case '0': // 0 matrix
+   case 'z':
+   case 'Z':
+      break;
+   case 'I': // identity
+   case 'i':
+   case '1':
+      m[0][0] = 1;
+      m[1][1] = 1;
+      m[2][2] = 1;
+      m[3][3] = 1;
+      break;
+   case 'F': // flipped vertically
+   case 'f':
+   case 'v':
+   case 'V':
+      m[0][0] = 1;
+      m[1][1] = -1;
+      m[2][2] = 1;
+      m[3][3] = 1;
+      break;
+   case 'M': // flipped horizontally (mirrored)
+   case 'm':
+   case 'h':
+   case 'H':
+      m[0][0] = 1;
+      m[1][1] = -1;
+      m[2][2] = 1;
+      m[3][3] = 1;
+      break;
+   default:
+      throw std::invalid_argument("bad type for matrix");
+   }
+}
+
+Matrix Matrix::TranslationMatrix(float x, float y, float z){
+   Matrix M;
+   M[0][3] = x;
+   M[1][3] = y;
+   M[2][3] = z;
+
+   return M;
+}
+
+Matrix Matrix::ScaleMatrix(float x, float y, float z){
+   Matrix M;
+   M[0][0] = x;
+   M[1][1] = y;
+   M[2][2] = z;
+
+   return M;
+}
+
+Matrix Matrix::RotationMatrix(char axis, float degrees){
+   Matrix M;
+   switch(axis)
+   {
+   case 'x':
+   case 'X':
+      M[1][1] = M[1][1]*cos(degrees/180*M_PI);
+      M[1][2] =-M[2][2]*sin(degrees/180*M_PI);
+      M[2][1] = M[1][1]*sin(degrees/180*M_PI);
+      M[2][2] = M[2][2]*cos(degrees/180*M_PI);
+      break;
+   case 'y':
+   case 'Y':
+      M[2][2] = M[2][2]*cos(degrees/180*M_PI);
+      M[2][0] = M[0][0]*sin(degrees/180*M_PI);
+      M[0][2] =-M[2][2]*sin(degrees/180*M_PI);
+      M[0][0] = M[0][0]*cos(degrees/180*M_PI);
+      break;
+   case 'z':
+   case 'Z':
+      M[0][0] = M[2][2]*cos(degrees/180*M_PI);
+      M[0][1] = M[1][1]*sin(degrees/180*M_PI);
+      M[1][0] =-M[2][2]*sin(degrees/180*M_PI);
+      M[1][1] = M[1][1]*cos(degrees/180*M_PI);
+      break;
+   default:
+      throw;
+   }
+
+   return M;
+}
+
+float* Matrix::operator[](int idx){
+   return m[idx];
+}
+
+const float* Matrix::operator[](int idx) const{
+   return m[idx];
+}
+
+bool Matrix::operator==(const Matrix& rhs) const{
+   for(int i = 0; i < 4; i++)
+      for(int j = 0; j < 4; j++)
+         if( abs(m[i][j] - rhs[i][j]) > TOLERANCE )
+            return false;
+   return true;
+}
+
+bool Matrix::operator!=(const Matrix& rhs) const{
+   return !(*this==rhs);
+}
+
+Matrix Matrix::operator*(const Matrix& rhs) const{
+   Matrix res('0');
+
+   for(int i = 0; i < 4; i++)
+      for(int j = 0; j < 4; j++)
+         for(int k = 0; k < 4; k++)
+            res[i][j] += m[i][k]*rhs[k][j];
+
+   return res;
+}
+
+Point3DF Matrix::operator*(const Point3DF& rhs) const{
+   Point3DF res(0,0,0);
+
+   for(int i = 0; i < 3; i++)
+      for(int j = 0; j < 3; j++)
+         res[i] += m[i][j]*rhs[j];
+   for(int i = 0; i < 3; i++)
+      res[i] += m[i][3];
+
+   return res;
+}
+
+Point3DF Matrix::operator*(const Point3D& rhs) const{
+   return (*this)*Point3DF(rhs);
+}
+
+Matrix& Matrix::operator*=(const Matrix& rhs){
+   float res[4][4];
+   for(int i = 0; i < 4; i++)
+      for(int j = 0; j < 4; j++)
+         res[i][j] = 0;
+
+   for(int i = 0; i < 4; i++)
+      for(int j = 0; j < 4; j++)
+         for(int k = 0; k < 4; k++)
+            res[i][j] += m[i][k]*rhs[k][j];
+
+   for(int i = 0; i < 4; i++)
+      for(int j = 0; j < 4; j++)
+         m[i][j] = res[i][j];
+   return *this;
+}
+
+Matrix Matrix::translate(float x, float y, float z) const{
+   return TranslationMatrix(x, y, z)*(*this);
+}
+
+Matrix Matrix::scale(float x, float y, float z) const{
+   return ScaleMatrix(x, y, z)*(*this);
+}
+
+Matrix Matrix::rotate(char axis, float degrees) const{
+   return RotationMatrix(axis, degrees)*(*this);
+}
+
+Matrix Matrix::transpose() const{
+   Matrix M('0');
+
+   for(int i = 0; i < 4; i++)
+      for(int j = 0; j < 4; j++)
+         M[i][j] = m[j][i];
+
+   return M;
+}
+
+Matrix Matrix::invert() const{
+   // inversion works by guassian elimination on an augmented matrix
+   Matrix copyM('0');
+   for(int i = 0; i < 4; i++)
+      for(int j = 0; j < 4; j++)
+         copyM[i][j] = m[i][j];
+   Matrix inverseM;
+
+   for(int i = 0; i < 4; i++)
+      for(int j = 0; j < 4; j++)
+         if(i!=j){
+            float ratio = copyM[j][i]/copyM[i][i];
+            for(int k = 0; k < 4; k++){
+               inverseM.m[j][k] -= ratio * inverseM.m[i][k];
+               copyM.m[j][k] -= ratio * copyM.m[i][k];
+            }
+         }
+   for(int i = 0; i < 4; i++){
+      float scale = copyM.m[i][i];
+      for(int j = 0; j < 4; j++)
+         inverseM.m[i][j] /= scale;
+   }
+
+   return inverseM;
+}
+
+void Matrix::print() const{
+   for(int i = 0; i < 4; i++){
+      printf("[ ");
+      for(int j = 0; j < 3; j++)
+         if(m[i][j] < 0)
+            printf("%.3f  ", m[i][j]);
+         else
+            printf(" %.3f  ", m[i][j]);
+      printf("]\n");
+   }
+}
+
+Point3DF operator*(const Point3DF& lhs, const Matrix& rhs){
+   Point3DF res(0,0,0);
+
+   for(int i = 0; i < 3; i++)
+      for(int j = 0; j < 3; j++)
+         res[i] += rhs.m[j][i]*lhs[j];
+   for(int i = 0; i < 3; i++)
+      res[i] += rhs.m[3][i];
+
+   return res;
+}
+
+Point3DF operator*(const Point3D& lhs, const Matrix& rhs){
+   return Point3DF(lhs)*rhs;
 }
 
