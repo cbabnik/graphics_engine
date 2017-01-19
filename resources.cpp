@@ -63,6 +63,9 @@ Point2DF Point2D::normalize() const{
    float len = length();
    return Point2DF(x/len, y/len);
 }
+void Point2D::print() const{
+   printf("[%d  %d]\n", x, y);
+}
 
 // Point2DF
 float& Point2DF::operator[](int idx){
@@ -126,6 +129,9 @@ float Point2DF::length() const{
 Point2DF Point2DF::normalize() const{
    float len = length();
    return Point2DF(x/len, y/len);
+}
+void Point2DF::print() const{
+   printf("[%.2f  %.2f]\n", x, y);
 }
 
 // Point3D
@@ -201,6 +207,9 @@ Point3DF Point3D::normalize() const{
    float len = length();
    return Point3DF(x/len, y/len, z/len);
 }
+void Point3D::print() const{
+   printf("[%d  %d  %d]\n", x, y, z);
+}
 
 // Point3DF
 float& Point3DF::operator[](int idx){
@@ -225,7 +234,7 @@ Point3DF Point3DF::operator-(const Point3DF& rhs) const{
    return Point3DF(x-rhs.x, y-rhs.y, z-rhs.z);
 }
 Point3DF Point3DF::operator+(const Point3DF& rhs) const{
-   return Point3D(x+rhs.x, y+rhs.y, z+rhs.z);
+   return Point3DF(x+rhs.x, y+rhs.y, z+rhs.z);
 }
 Point3DF Point3DF::operator*(const float& rhs) const{
    return Point3DF(x*rhs, y*rhs, z*rhs);
@@ -288,6 +297,9 @@ float Point3DF::length() const{
 Point3DF Point3DF::normalize() const{
    float len = length();
    return Point3DF(x/len, y/len, z/len);
+}
+void Point3DF::print() const{
+   printf("[%.2f  %.2f  %.2f]\n", x, y, z);
 }
 
 // Point RHS functions

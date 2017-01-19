@@ -3,7 +3,6 @@
 #include "resources.h"
 #include <stdexcept>
 #include <climits>
-#include <cstdio>
 
 class TestResources: public QObject
 {
@@ -426,6 +425,15 @@ void TestResources::point_combined(){
    QVERIFY( Point3D(6,8,24) == p2.truncate() );
    QVERIFY( Point3D(6,8,24) == p2.round() );
   }
+
+   Point3DF p0(0,0,0), p1(1,2,3), p2(1.5, 3.5, 0.2), p3(3.14, 1.62, 1.1);
+   QVERIFY( abs((p1.cross(p2)).dot(p3)) == abs(p1.dot(p2.cross(p3))) );
+   QVERIFY( (p1.dot(p2) - p2.dot(p1)) < Point3DF::TOLERANCE ); // commutative
+   QVERIFY( p1.cross(p2) == p0-(p2.cross(p1)) ); // anti-commutative
+   QVERIFY( p1.cross(p2.cross(p3)) +
+            p2.cross(p3.cross(p1)) +
+            p3.cross(p1.cross(p2)) == p0 ); // Jacobi identity
+   QVERIFY( p1.cross(p2+p3) == (p1.cross(p2))+(p1.cross(p3)) ); // distributative
 }
 
 void TestResources::matrix_member_access(){

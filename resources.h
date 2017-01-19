@@ -45,6 +45,8 @@ struct Point2D
    // other
    float length() const;
    Point2DF normalize() const;
+   // debugging
+   void print() const;
 };
 struct Point2DF
 {
@@ -76,6 +78,8 @@ struct Point2DF
    // other
    float length() const;
    Point2DF normalize() const;
+   // debugging
+   void print() const;
 };
 struct Point3D
 {
@@ -107,6 +111,8 @@ struct Point3D
    // other
    float length() const;
    Point3DF normalize() const;
+   // debugging
+   void print() const;
 };
 struct Point3DF
 {
@@ -145,6 +151,8 @@ struct Point3DF
    // other
    float length() const;
    Point3DF normalize() const;
+   // debugging
+   void print() const;
 };
 Point2DF operator*(const float& lhs, const Point2D&  rhs);
 Point2DF operator*(const float& lhs, const Point2DF& rhs);
