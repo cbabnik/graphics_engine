@@ -9,12 +9,15 @@
 // Declaration of various data structures used by my graphics_engine
 // * I'm considering turning this into a git submodule
 
+#include <cstdint>
+
 // forward declaration
 struct Point2D;
 struct Point2DF;
 struct Point3D;
 struct Point3DF;
 class Matrix;
+class Color;
 
 // Points (or vectors)
 // + F indicates float form, as opposed to int
@@ -199,5 +202,47 @@ public:
 };
 Point3DF operator*(const Point3DF& lhs, const Matrix& rhs);
 Point3DF operator*(const Point3D&  lhs, const Matrix& rhs);
+
+// Colour class
+// A wrapper for 32 bit unsigned argb values. alpha ignored
+class Color
+{
+   // constants
+   static const unsigned int rgbMask = 0x00FFFFFF;
+   // constructors
+   Color();
+   Color(unsigned int color);
+   Color(uint8_t r, uint8_t g, uint8_t b);
+   // members
+   union{
+      struct{
+         uint8_t alpha; // UNUSED
+         uint8_t red;
+         uint8_t blue;
+         uint8_t green;
+      } colorComponent;
+      unsigned int color;
+   };
+   // member access
+         uint8_t& operator[](int idx);
+   const uint8_t& operator[](int idx) const;
+   // assignment
+   Color& operator=(unsigned int rhs);
+   // comparison
+   bool operator==(const Color& rhs) const;
+   bool operator==(unsigned int rhs) const;
+   bool operator!=(const Color& rhs) const;
+   bool operator!=(unsigned int rhs) const;
+   // arithmetic
+   Color  operator* (float rhs) const;
+   Color& operator*=(float rhs);
+   Color  operator+ (const Color& rhs) const;
+   Color& operator+=(const Color& rhs);
+   Color  operator- (const Color& rhs) const;
+   Color& operator-=(const Color& rhs);
+   // debugging
+   void print() const;
+};
+Color operator*(float lhs, const Color& rhs);
 
 #endif // RESOURCES_H
