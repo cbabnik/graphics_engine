@@ -359,7 +359,6 @@ Matrix::Matrix(char type){
       throw std::invalid_argument("bad type for matrix");
    }
 }
-
 Matrix Matrix::TranslationMatrix(float x, float y, float z){
    Matrix M;
    M[0][3] = x;
@@ -368,7 +367,6 @@ Matrix Matrix::TranslationMatrix(float x, float y, float z){
 
    return M;
 }
-
 Matrix Matrix::ScaleMatrix(float x, float y, float z){
    Matrix M;
    M[0][0] = x;
@@ -377,7 +375,6 @@ Matrix Matrix::ScaleMatrix(float x, float y, float z){
 
    return M;
 }
-
 Matrix Matrix::RotationMatrix(char axis, float degrees){
    Matrix M;
    switch(axis)
@@ -409,15 +406,12 @@ Matrix Matrix::RotationMatrix(char axis, float degrees){
 
    return M;
 }
-
 float* Matrix::operator[](int idx){
    return m[idx];
 }
-
 const float* Matrix::operator[](int idx) const{
    return m[idx];
 }
-
 bool Matrix::operator==(const Matrix& rhs) const{
    for(int i = 0; i < 4; i++)
       for(int j = 0; j < 4; j++)
@@ -425,11 +419,9 @@ bool Matrix::operator==(const Matrix& rhs) const{
             return false;
    return true;
 }
-
 bool Matrix::operator!=(const Matrix& rhs) const{
    return !(*this==rhs);
 }
-
 Matrix Matrix::operator*(const Matrix& rhs) const{
    Matrix res('0');
 
@@ -440,7 +432,6 @@ Matrix Matrix::operator*(const Matrix& rhs) const{
 
    return res;
 }
-
 Point3DF Matrix::operator*(const Point3DF& rhs) const{
    Point3DF res(0,0,0);
 
@@ -452,11 +443,9 @@ Point3DF Matrix::operator*(const Point3DF& rhs) const{
 
    return res;
 }
-
 Point3DF Matrix::operator*(const Point3D& rhs) const{
    return (*this)*Point3DF(rhs);
 }
-
 Matrix& Matrix::operator*=(const Matrix& rhs){
    float res[4][4];
    for(int i = 0; i < 4; i++)
@@ -473,19 +462,15 @@ Matrix& Matrix::operator*=(const Matrix& rhs){
          m[i][j] = res[i][j];
    return *this;
 }
-
 Matrix Matrix::translate(float x, float y, float z) const{
    return TranslationMatrix(x, y, z)*(*this);
 }
-
 Matrix Matrix::scale(float x, float y, float z) const{
    return ScaleMatrix(x, y, z)*(*this);
 }
-
 Matrix Matrix::rotate(char axis, float degrees) const{
    return RotationMatrix(axis, degrees)*(*this);
 }
-
 Matrix Matrix::transpose() const{
    Matrix M('0');
 
@@ -495,7 +480,6 @@ Matrix Matrix::transpose() const{
 
    return M;
 }
-
 Matrix Matrix::invert() const{
    // inversion works by guassian elimination on an augmented matrix
    Matrix copyM('0');
@@ -521,7 +505,6 @@ Matrix Matrix::invert() const{
 
    return inverseM;
 }
-
 void Matrix::print() const{
    for(int i = 0; i < 4; i++){
       printf("[ ");
@@ -545,8 +528,128 @@ Point3DF operator*(const Point3DF& lhs, const Matrix& rhs){
 
    return res;
 }
-
 Point3DF operator*(const Point3D& lhs, const Matrix& rhs){
    return Point3DF(lhs)*rhs;
 }
 
+//=====
+//Color
+//=====
+Color::Color(){
+   this->color = 0;
+}
+Color::Color(unsigned int color){
+   this->color = color;
+}
+Color::Color(uint8_t r, uint8_t g, uint8_t b);
+   colorComponent.alpha = 0;
+   colorComponent.red = r;
+   colorComponent.blue = b;
+   colorComponent.green = g;
+}
+uint8_t& Color::operator[](int idx){
+   switch(idx)
+   {
+      case 0: return colorComponent.red;
+      case 1: return colorComponent.blue;
+      case 2: return colorComponent.green;
+      default: throw std::out_of_range("idx out of range for Color");
+   }
+}
+const uint8_t& Color::operator[](int idx) const{
+   switch(idx)
+   {
+      case 0: return colorComponent.red;
+      case 1: return colorComponent.blue;
+      case 2: return colorComponent.green;
+      default: throw std::out_of_range("idx out of range for Color");
+   }
+}
+Color& Color::operator=(unsigned int rhs){
+   this->color = rhs;
+   return (*this);
+}
+bool Color::operator==(const Color& rhs) const{
+   return (colorComponent.red == rhs.colorComponent.red
+        && colorComponent.blue == rhs.colorComponent.blue
+        && colorComponent.green == rhs.colorComponent.green);
+}
+bool Color::operator!=(const Color& rhs) const{
+   return !((*this)==rhs);
+}
+bool Color::operator==(unsigned int rhs) const{
+   return ((color&rgbMask) == (rhs&rgbMask));
+}
+bool Color::operator!=(unsigned int rhs) const{
+   return !((*this)==rhs);
+}
+Color Color::operator*(float rhs) const{
+   Color newColor;
+   newColor.colorComponent.red  = ((int)(colorComponent.red*rhs)  > 255 ?
+                                   255 : (int)(colorComponent.red*rhs));
+   newColor.colorComponent.blue = ((int)(colorComponent.blue*rhs) > 255 ?
+                                   255 : (int)(colorComponent.blue*rhs));
+   newColor.colorComponent.green=((int)(colorComponent.green*rhs) > 255 ?
+                                   255 :(int)(colorComponent.green*rhs));
+   return newColor;
+}
+Color& Color::operator*=(float rhs){
+   colorComponent.red  = ((int)(colorComponent.red*rhs)  > 255 ?
+                          255 : (int)(colorComponent.red*rhs));
+   colorComponent.blue = ((int)(colorComponent.blue*rhs) > 255 ?
+                          255 : (int)(colorComponent.blue*rhs));
+   colorComponent.green=((int)(colorComponent.green*rhs) > 255 ?
+                          255 :(int)(colorComponent.green*rhs));
+   return (*this);
+}
+Color Color::operator+(const Color& rhs) const{
+   Color newColor;
+   newColor.colorComponent.red =
+                           ((colorComponent.red + rhs.colorComponent.red) > 255 ?
+                            255 : (colorComponent.red + rhs.colorComponent.red));
+   newColor.colorComponent.blue =
+                           ((colorComponent.blue + rhs.colorComponent.blue) > 255 ?
+                            255 : (colorComponent.blue + rhs.colorComponent.blue));
+   newColor.colorComponent.green =
+                           ((colorComponent.green + rhs.colorComponent.green) > 255 ?
+                            255 : (colorComponent.green + rhs.colorComponent.green));
+   return newColor;
+}
+Color& Color::operator+=(const Color& rhs){
+   colorComponent.red = ((colorComponent.red + rhs.colorComponent.red) > 255 ?
+                         255 : (colorComponent.red + rhs.colorComponent.red));
+   colorComponent.blue = ((colorComponent.blue + rhs.colorComponent.blue) > 255 ?
+                          255 : (colorComponent.blue + rhs.colorComponent.blue));
+   colorComponent.green = ((colorComponent.green + rhs.colorComponent.green) > 255 ?
+                           255 : (colorComponent.green + rhs.colorComponent.green));
+   return (*this);
+}
+Color Color::operator-(const Color& rhs) const{
+   Color newColor;
+   newColor.colorComponent.red =
+                           ((colorComponent.red - rhs.colorComponent.red) < 0 ?
+                            0 : (colorComponent.red - rhs.colorComponent.red));
+   newColor.colorComponent.blue =
+                           ((colorComponent.blue - rhs.colorComponent.blue) < 0 ?
+                            0 : (colorComponent.blue - rhs.colorComponent.blue));
+   newColor.colorComponent.green =
+                           ((colorComponent.green - rhs.colorComponent.green) < 0 ?
+                            0 : (colorComponent.green - rhs.colorComponent.green));
+   return newColor;
+}
+Color& Color::operator-=(const Color& rhs){
+   colorComponent.red = ((colorComponent.red - rhs.colorComponent.red) < 0 ?
+                         0 : (colorComponent.red - rhs.colorComponent.red));
+   colorComponent.blue = ((colorComponent.blue - rhs.colorComponent.blue) < 0 ?
+                          0 : (colorComponent.blue - rhs.colorComponent.blue));
+   colorComponent.green = ((colorComponent.green - rhs.colorComponent.green) < 0 ?
+                           0 : (colorComponent.green - rhs.colorComponent.green));
+   return (*this);
+}
+void Color::print() const{
+   printf("Color: 0x%x\n", color&rgbMask);
+   printf("   alpha: %d\n", colorComponent.alpha);
+   printf("   red  : %d\n", colorComponent.red);
+   printf("   green: %d\n", colorComponent.green);
+   printf("   blue : %d\n", colorComponent.blue);
+}
