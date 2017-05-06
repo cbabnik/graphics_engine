@@ -434,6 +434,11 @@ Matrix Matrix::operator*(const Matrix& rhs) const{
 }
 Point3DF Matrix::operator*(const Point3DF& rhs) const{
    Point3DF res(0,0,0);
+   float denom = m[3][0]*rhs[0]+m[3][1]*rhs[1]+m[3][2]*rhs[2]+m[3][3];
+   if( abs(denom-1) > Matrix::TOLERANCE )
+      printf("Warning: Matrix is not homogenous!\n");
+   else
+      denom = 1;
 
    for(int i = 0; i < 3; i++)
       for(int j = 0; j < 3; j++)
@@ -441,7 +446,7 @@ Point3DF Matrix::operator*(const Point3DF& rhs) const{
    for(int i = 0; i < 3; i++)
       res[i] += m[i][3];
 
-   return res;
+   return res*(1.0/denom);
 }
 Point3DF Matrix::operator*(const Point3D& rhs) const{
    return (*this)*Point3DF(rhs);
@@ -508,7 +513,7 @@ Matrix Matrix::invert() const{
 void Matrix::print() const{
    for(int i = 0; i < 4; i++){
       printf("[ ");
-      for(int j = 0; j < 3; j++)
+      for(int j = 0; j < 4; j++)
          if(m[i][j] < 0)
             printf("%.3f  ", m[i][j]);
          else
@@ -519,6 +524,14 @@ void Matrix::print() const{
 
 Point3DF operator*(const Point3DF& lhs, const Matrix& rhs){
    Point3DF res(0,0,0);
+   float denom = rhs.m[0][3]*lhs[0]
+                +rhs.m[1][3]*lhs[1]
+                +rhs.m[2][3]*lhs[2]
+                +rhs.m[3][3];
+   if( abs(denom-1) > Matrix::TOLERANCE )
+      printf("Warning: Matrix is not homogenous!\n");
+   else
+      denom = 1;
 
    for(int i = 0; i < 3; i++)
       for(int j = 0; j < 3; j++)
@@ -526,7 +539,7 @@ Point3DF operator*(const Point3DF& lhs, const Matrix& rhs){
    for(int i = 0; i < 3; i++)
       res[i] += rhs.m[3][i];
 
-   return res;
+   return res*(1.0/denom);
 }
 Point3DF operator*(const Point3D& lhs, const Matrix& rhs){
    return Point3DF(lhs)*rhs;

@@ -643,8 +643,8 @@ void TestResources::interaction_matrix_point(){
    M[3][0] = 9;
    M[3][1] = 4;
    M[3][2] = 1;
-   Point3DF expectedResultA(3212,6545,9878);
-   Point3DF expectedResultB(7419,8524,9631);
+   Point3DF expectedResultA = Point3DF(3212,6545,9878) * (1.0/1491);
+   Point3DF expectedResultB = Point3DF(7419,8524,9631) * (1.0/8521);
 
    QVERIFY( M*p == expectedResultA );
    QVERIFY( p*M == expectedResultB );
