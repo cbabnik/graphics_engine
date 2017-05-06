@@ -19,14 +19,22 @@ private slots:
    void point_normalization();
    void point_constructors();
    void point_combined();
+
    void matrix_constructors();
    void matrix_inversion();
    void matrix_transpose();
    void matrix_multiplication();
    void matrix_member_access();
    void matrix_combined();
-   void interaction_matrix_point();
 
+   void color_constructors();
+   void color_assignment();
+   void color_member_access();
+   void color_arithmetic();
+   void color_comparison();
+   void color_combined();
+
+   void interaction_matrix_point();
 };
 
 void TestResources::point_comparison(){
@@ -640,6 +648,108 @@ void TestResources::interaction_matrix_point(){
 
    QVERIFY( M*p == expectedResultA );
    QVERIFY( p*M == expectedResultB );
+}
+
+void TestResources::color_constructors(){
+   Color c1;
+   Color c2(0xaaffaa00);
+   Color c3(255,100,0);
+
+   QVERIFY( (c1.color & c1.rgbMask) == 0                     );
+   QVERIFY( c1.colorComponent.red   == 0                     );
+   QVERIFY( c1.colorComponent.green == 0                     );
+   QVERIFY( c1.colorComponent.blue  == 0                     );
+   QVERIFY( (c2.color & c2.rgbMask) == 0x00ffaa00            );
+   QVERIFY( c2.colorComponent.red   == 0xff                  );
+   QVERIFY( c2.colorComponent.green == 0xaa                  );
+   QVERIFY( c2.colorComponent.blue  == 0x00                  );
+   QVERIFY( (c3.color & c3.rgbMask) == 255*256*256 + 100*256 );
+   QVERIFY( c3.colorComponent.red   == 255                   );
+   QVERIFY( c3.colorComponent.green == 100                   );
+   QVERIFY( c3.colorComponent.blue  == 0                     );
+}
+void TestResources::color_assignment(){
+   Color c1 = 0xa3ff00aa;
+
+   QVERIFY( (c1.color & c1.rgbMask) == 0x00ff00aa );
+   QVERIFY( c1.colorComponent.red   == 0xff       );
+   QVERIFY( c1.colorComponent.green == 0x00       );
+   QVERIFY( c1.colorComponent.blue  == 0xaa       );
+}
+void TestResources::color_member_access(){
+   Color c1 = 0xaabbccdd;
+   c1[0] -= 0xb;
+   c1[1] -= 0xc;
+   c1[2] -= 0xd;
+
+   QVERIFY( c1[0] == 0xb0 );
+   QVERIFY( c1[1] == 0xc0 );
+   QVERIFY( c1[2] == 0xd0 );
+
+   QVERIFY_EXCEPTION_THROWN( c1[-1]     , std::out_of_range );
+   QVERIFY_EXCEPTION_THROWN( c1[3]      , std::out_of_range );
+   QVERIFY_EXCEPTION_THROWN( c1[INT_MIN], std::out_of_range );
+   QVERIFY_EXCEPTION_THROWN( c1[INT_MAX], std::out_of_range );
+}
+void TestResources::color_arithmetic(){
+   Color c1 = 0x00112233;
+   Color c2 = 0x00204060;
+
+   Color c3 = 2*c1;
+   Color c4 = c1*3.0;
+   Color c5 = 100*c1;
+   Color c6 = -1*c1;
+
+   Color c7 = 0x000a0b0c;
+   c7 *= 0x11;
+
+   QVERIFY( (c1.color & Color::rgbMask) == 0x112233 );
+   QVERIFY( (c2.color & Color::rgbMask) == 0x204060 );
+   QVERIFY( (c3.color & Color::rgbMask) == 0x224466 );
+   QVERIFY( (c4.color & Color::rgbMask) == 0x336699 );
+   QVERIFY( (c5.color & Color::rgbMask) == 0xffffff );
+   QVERIFY( (c6.color & Color::rgbMask) == 0x000000 );
+   QVERIFY( (c7.color & Color::rgbMask) == 0xaabbcc );
+
+   Color c8 = c1+c2;
+   Color c9 = c2-c1;
+   c3 += c4;
+   c5 -= c7;
+
+   QVERIFY( (c8.color & Color::rgbMask) == 0x316293 );
+   QVERIFY( (c9.color & Color::rgbMask) == 0x0f1e2d );
+   QVERIFY( (c3.color & Color::rgbMask) == 0x55aaff );
+   QVERIFY( (c5.color & Color::rgbMask) == 0x554433 );
+}
+void TestResources::color_comparison(){
+   Color c1(0x00112233);
+   Color c2(0x00204060);
+   Color c3(0x11,0x22,0x33);
+
+   QVERIFY(   c1 == c3   );
+   QVERIFY( !(c1 != c3 ) );
+   QVERIFY(   c1 != c2   );
+   QVERIFY( !(c1 == c2 ) );
+}
+void TestResources::color_combined(){
+   Color c1(0xfa3f);
+   c1 = 0xab4d1f;
+   Color c2(50,20,10);
+
+   QVERIFY( ((2.3*c2).color & Color::rgbMask) == 0x732e17 );
+
+   c2 *= 32.0/10;
+
+   QVERIFY( c1 != c2 );
+
+   c2 += 0x0b0d0f;
+   c2 -= 0x000010;
+
+   QVERIFY( c1 == c2 );
+
+   c2[2] = c2[1];
+
+   QVERIFY( (c2.color & Color::rgbMask) == 0xab4d4d );
 }
 
 QTEST_MAIN(TestResources)

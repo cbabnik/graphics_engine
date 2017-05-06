@@ -539,20 +539,20 @@ Color::Color(){
    this->color = 0;
 }
 Color::Color(unsigned int color){
-   this->color = color;
+   this->color = color & rgbMask;
 }
-Color::Color(uint8_t r, uint8_t g, uint8_t b);
+Color::Color(uint8_t r, uint8_t g, uint8_t b){
    colorComponent.alpha = 0;
    colorComponent.red = r;
-   colorComponent.blue = b;
    colorComponent.green = g;
+   colorComponent.blue = b;
 }
 uint8_t& Color::operator[](int idx){
    switch(idx)
    {
       case 0: return colorComponent.red;
-      case 1: return colorComponent.blue;
-      case 2: return colorComponent.green;
+      case 1: return colorComponent.green;
+      case 2: return colorComponent.blue;
       default: throw std::out_of_range("idx out of range for Color");
    }
 }
@@ -560,13 +560,13 @@ const uint8_t& Color::operator[](int idx) const{
    switch(idx)
    {
       case 0: return colorComponent.red;
-      case 1: return colorComponent.blue;
-      case 2: return colorComponent.green;
+      case 1: return colorComponent.green;
+      case 2: return colorComponent.blue;
       default: throw std::out_of_range("idx out of range for Color");
    }
 }
 Color& Color::operator=(unsigned int rhs){
-   this->color = rhs;
+   this->color = rhs & rgbMask;
    return (*this);
 }
 bool Color::operator==(const Color& rhs) const{
@@ -584,6 +584,7 @@ bool Color::operator!=(unsigned int rhs) const{
    return !((*this)==rhs);
 }
 Color Color::operator*(float rhs) const{
+   if ( rhs < 0 ) rhs = 0;
    Color newColor;
    newColor.colorComponent.red  = ((int)(colorComponent.red*rhs)  > 255 ?
                                    255 : (int)(colorComponent.red*rhs));
@@ -647,9 +648,13 @@ Color& Color::operator-=(const Color& rhs){
    return (*this);
 }
 void Color::print() const{
-   printf("Color: 0x%x\n", color&rgbMask);
+   printf("Color: 0x%x\n", color);
    printf("   alpha: %d\n", colorComponent.alpha);
    printf("   red  : %d\n", colorComponent.red);
    printf("   green: %d\n", colorComponent.green);
    printf("   blue : %d\n", colorComponent.blue);
+}
+
+Color operator*(float lhs, const Color& rhs){
+   return rhs*lhs;
 }

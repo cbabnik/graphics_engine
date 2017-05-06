@@ -207,6 +207,7 @@ Point3DF operator*(const Point3D&  lhs, const Matrix& rhs);
 // A wrapper for 32 bit unsigned argb values. alpha ignored
 class Color
 {
+public:
    // constants
    static const unsigned int rgbMask = 0x00FFFFFF;
    // constructors
@@ -216,10 +217,10 @@ class Color
    // members
    union{
       struct{
-         uint8_t alpha; // UNUSED
-         uint8_t red;
          uint8_t blue;
          uint8_t green;
+         uint8_t red;
+         uint8_t alpha; // UNUSED
       } colorComponent;
       unsigned int color;
    };
