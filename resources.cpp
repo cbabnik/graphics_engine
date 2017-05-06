@@ -487,26 +487,36 @@ Matrix Matrix::transpose() const{
 }
 Matrix Matrix::invert() const{
    // inversion works by guassian elimination on an augmented matrix
-   Matrix copyM('0');
+   float augmentedM[4][8];
+
    for(int i = 0; i < 4; i++)
       for(int j = 0; j < 4; j++)
-         copyM[i][j] = m[i][j];
-   Matrix inverseM;
+         augmentedM[i][j] = m[i][j];
+   for(int i = 0; i < 4; i++)
+      for(int j = 4; j < 8; j++)
+         augmentedM[i][j] = 0;
+   for(int i = 0; i < 4; i++)
+         augmentedM[i][4+i] = 1;
 
    for(int i = 0; i < 4; i++)
       for(int j = 0; j < 4; j++)
          if(i!=j){
-            float ratio = copyM[j][i]/copyM[i][i];
+            float ratio = augmentedM[j][i]/augmentedM[i][i];
             for(int k = 0; k < 4; k++){
-               inverseM.m[j][k] -= ratio * inverseM.m[i][k];
-               copyM.m[j][k] -= ratio * copyM.m[i][k];
+               augmentedM[j][4+k] -= ratio * augmentedM[i][4+k];
+               augmentedM[j][k] -= ratio * augmentedM[i][k];
             }
          }
    for(int i = 0; i < 4; i++){
-      float scale = copyM.m[i][i];
-      for(int j = 0; j < 4; j++)
-         inverseM.m[i][j] /= scale;
+      float scale = augmentedM[i][i];
+      for(int j = 4; j < 8; j++)
+         augmentedM[i][j] /= scale;
    }
+
+   Matrix inverseM;
+   for(int i = 0; i < 4; i++)
+      for(int j = 0; j < 4; j++)
+         inverseM.m[i][j] = augmentedM[i][4+j];
 
    return inverseM;
 }
