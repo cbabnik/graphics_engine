@@ -11,6 +11,7 @@ SOURCES += \
    renderarea.cpp \
    client.cpp \
    renderer.cpp \
+   linerenderer.cpp \
    resources.cpp
 
 HEADERS += \
@@ -19,4 +20,5 @@ HEADERS += \
    renderarea.h \
    client.h \
    renderer.h \
+   linerenderer.h \
    resources.h
