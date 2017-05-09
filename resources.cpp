@@ -681,3 +681,15 @@ void Color::print() const{
 Color operator*(float lhs, const Color& rhs){
    return rhs*lhs;
 }
+
+const Color Color::WHITE  (0xFFFFFF);
+const Color Color::BLACK  (0x000000);
+const Color Color::GRAY   (0x555555);
+const Color Color::RED    (0xFF0000);
+const Color Color::GREEN  (0x00FF00);
+const Color Color::BLUE   (0x0000FF);
+const Color Color::CYAN   (0x00FFFF);
+const Color Color::YELLOW (0xFFFF00);
+const Color Color::MAGENTA(0xFF00FF);
+const Color Color::ORANGE (0xFFA500);
+const Color Color::BROWN  (0x502810);

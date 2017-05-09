@@ -210,7 +210,8 @@ class Color
 public:
    // constants
    static const unsigned int rgbMask = 0x00FFFFFF;
-   // constructors
+   static const Color WHITE, BLACK, GRAY, RED, GREEN, BLUE,
+                      CYAN, MAGENTA, YELLOW, BROWN, ORANGE;
    Color();
    Color(unsigned int color);
    Color(uint8_t r, uint8_t g, uint8_t b);
