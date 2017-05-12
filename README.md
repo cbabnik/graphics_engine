@@ -14,3 +14,5 @@ So I decided to restart the project, and do it slowly and properly.
 
 The project is (tentatively) being built like this:
 ![UML-like Diagram](https://raw.githubusercontent.com/cbabnik/graphics_engine/master/rough_diagram.png)
+Example renderings:
+![Line Renderer](https://raw.githubusercontent.com/cbabnik/graphics_engine/master/example_images/linerenderer.png)
