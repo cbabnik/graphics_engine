@@ -20,7 +20,7 @@ RenderArea::RenderArea() :QWidget((QWidget *)0) {
 
 // Drawing functions
 void RenderArea::setPixel(int x, int y, uint color) {
-   image.setPixel(x, y, color);
+   image.setPixel(x, y, 0xff000000 + (color & 0x00ffffff) );
 }
 uint RenderArea::getPixel(int x, int y) const {
    return (uint)(image.pixel(x, y));
