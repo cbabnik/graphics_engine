@@ -623,6 +623,58 @@ const uint8_t& Color::operator[](int idx) const{
       default: throw std::out_of_range("idx out of range for Color");
    }
 }
+uint8_t& Color::operator[](std::string component){
+   if( component.compare("red") == 0 ||
+       component.compare("RED") == 0 ||
+       component.compare("R")   == 0 ||
+       component.compare("r")   == 0 ||
+       component.compare("Red") == 0 ){
+      return colorComponent.red;
+   }
+   else if( component.compare("green") == 0 ||
+            component.compare("GREEN") == 0 ||
+            component.compare("G")     == 0 ||
+            component.compare("g")     == 0 ||
+            component.compare("Green") == 0 ){
+      return colorComponent.green;
+   }
+   else if( component.compare("blue") == 0 ||
+            component.compare("BLUE") == 0 ||
+            component.compare("B")    == 0 ||
+            component.compare("b")    == 0 ||
+            component.compare("Blue") == 0 ){
+      return colorComponent.blue;
+   }
+   else {
+      throw std::out_of_range("component not in Color");
+   }
+}
+const uint8_t& Color::operator[](std::string component) const{
+   if( component.compare("red") == 0 ||
+       component.compare("RED") == 0 ||
+       component.compare("R")   == 0 ||
+       component.compare("r")   == 0 ||
+       component.compare("Red") == 0 ){
+      return colorComponent.red;
+   }
+   else if( component.compare("green") == 0 ||
+            component.compare("GREEN") == 0 ||
+            component.compare("G")     == 0 ||
+            component.compare("g")     == 0 ||
+            component.compare("Green") == 0 ){
+      return colorComponent.green;
+   }
+   else if( component.compare("blue") == 0 ||
+            component.compare("BLUE") == 0 ||
+            component.compare("B")    == 0 ||
+            component.compare("b")    == 0 ||
+            component.compare("Blue") == 0 ){
+      return colorComponent.blue;
+   }
+   else {
+      throw std::out_of_range("component not in Color");
+   }
+}
 Color& Color::operator=(unsigned int rhs){
    this->uint_val = rhs & rgbMask;
    return (*this);

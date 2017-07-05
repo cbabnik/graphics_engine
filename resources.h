@@ -10,6 +10,7 @@
 // * I'm considering turning this into a git submodule
 
 #include <cstdint>
+#include <string>
 
 // forward declaration
 struct Point2D;
@@ -233,6 +234,8 @@ public:
    // member access
          uint8_t& operator[](int idx);
    const uint8_t& operator[](int idx) const;
+         uint8_t& operator[](std::string component);
+   const uint8_t& operator[](std::string component) const;
    // assignment
    Color& operator=(unsigned int rhs);
    // comparison

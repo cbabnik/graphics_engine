@@ -721,10 +721,19 @@ void TestResources::color_member_access(){
    QVERIFY( c1[1] == 0xc0 );
    QVERIFY( c1[2] == 0xd0 );
 
+   c1["RED"]   += 0x7;
+   c1["green"] += 0x8;
+   c1["B"]     += 0x9;
+
+   QVERIFY( c1["r"]     == 0xb7 );
+   QVERIFY( c1["GREEN"] == 0xc8 );
+   QVERIFY( c1["Blue"]  == 0xd9 );
+
    QVERIFY_EXCEPTION_THROWN( c1[-1]     , std::out_of_range );
    QVERIFY_EXCEPTION_THROWN( c1[3]      , std::out_of_range );
    QVERIFY_EXCEPTION_THROWN( c1[INT_MIN], std::out_of_range );
    QVERIFY_EXCEPTION_THROWN( c1[INT_MAX], std::out_of_range );
+   QVERIFY_EXCEPTION_THROWN( c1["adw"], std::out_of_range );
 }
 void TestResources::color_arithmetic(){
    Color c1 = 0x00112233;
