@@ -19,6 +19,8 @@ struct Point3D;
 struct Point3DF;
 class Matrix;
 class Color;
+struct Line;
+struct Polygon;
 
 // Points (or vectors)
 // + F indicates float form, as opposed to int
@@ -254,5 +256,38 @@ public:
    void print() const;
 };
 Color operator*(float lhs, const Color& rhs);
+
+// Shapes (3DF form)
+struct Line
+{
+   // constructor
+   Line();
+   Line(Point3DF point1, Point3DF point2) : p1(point1), p2(point2) {};
+   Line(Point3DF point1, Point3DF point2, Color color1, Color color2) : 
+         p1(point1), p2(point2), c1(color1), c2(color2) {};
+   // members
+   Point3DF p1;
+   Point3DF p2;
+   Color c1;
+   Color c2;
+};
+struct Polygon
+{
+   // constructor
+   Polygon();
+   Polygon(Point3DF point1, Point3DF point2, Point3DF point3) :
+         p1(point1), p2(point2), p3(point3) {};
+   Polygon(Point3DF point1, Point3DF point2, Point3DF point3,
+           Color color1, Color color2, Color color3) : 
+         p1(point1), p2(point2), p3(point3),
+         c1(color1), c2(color2), c3(color3) {};
+   // members
+   Point3DF p1;
+   Point3DF p2;
+   Point3DF p3;
+   Color c1;
+   Color c2;
+   Color c3;
+};
 
 #endif // RESOURCES_H
