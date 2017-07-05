@@ -119,13 +119,13 @@ void TestResources::point_arithmetic(){
 
    Point2DF p5=2*p4;
 
-   QVERIFY( abs(p5.x - 6)  < Point2DF::TOLERANCE );
-   QVERIFY( abs(p5.y - 12) < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p5.x - 6)  < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p5.y - 12) < Point2DF::TOLERANCE );
 
    p5=p4*3;
 
-   QVERIFY( abs(p5.x - 9)  < Point2DF::TOLERANCE );
-   QVERIFY( abs(p5.y - 18) < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p5.x - 9)  < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p5.y - 18) < Point2DF::TOLERANCE );
   }
    // Point2DF
   {
@@ -133,35 +133,35 @@ void TestResources::point_arithmetic(){
    Point2DF p3=p1+p2;
    Point2DF p4=p1-p2;
 
-   QVERIFY( abs(p3.x - 4.4)    < Point2DF::TOLERANCE );
-   QVERIFY( abs(p3.y - (-2.2)) < Point2DF::TOLERANCE );
-   QVERIFY( abs(p4.x - 2.2)    < Point2DF::TOLERANCE );
-   QVERIFY( abs(p4.y - (-6.6)) < Point2DF::TOLERANCE );
-   QVERIFY( abs(p1.dot(p2) - p2.dot(p1)) < Point2DF::TOLERANCE );
-   QVERIFY( abs(p1.dot(p2) - (-6.05)) < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p3.x - 4.4)    < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p3.y - (-2.2)) < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p4.x - 2.2)    < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p4.y - (-6.6)) < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p1.dot(p2) - p2.dot(p1)) < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p1.dot(p2) - (-6.05)) < Point2DF::TOLERANCE );
 
    p3+=p2;
    p4-=p2;
 
-   QVERIFY( abs(p3.x - 5.5)    < Point2DF::TOLERANCE );
-   QVERIFY( abs(p3.y - 0)      < Point2DF::TOLERANCE );
-   QVERIFY( abs(p4.x - 1.1)    < Point2DF::TOLERANCE );
-   QVERIFY( abs(p4.y - (-8.8)) < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p3.x - 5.5)    < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p3.y - 0)      < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p4.x - 1.1)    < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p4.y - (-8.8)) < Point2DF::TOLERANCE );
 
    Point2DF p5=2*p4;
 
-   QVERIFY( abs(p5.x - 2.2)  < Point2DF::TOLERANCE );
-   QVERIFY( abs(p5.y - (-17.6)) < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p5.x - 2.2)  < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p5.y - (-17.6)) < Point2DF::TOLERANCE );
 
    p5=p4*.5;
 
-   QVERIFY( abs(p5.x - 0.55)  < Point2DF::TOLERANCE );
-   QVERIFY( abs(p5.y - (-4.4)) < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p5.x - 0.55)  < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p5.y - (-4.4)) < Point2DF::TOLERANCE );
 
    p5*=2;
 
-   QVERIFY( abs(p5.x - 1.1)  < Point2DF::TOLERANCE );
-   QVERIFY( abs(p5.y - (-8.8)) < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p5.x - 1.1)  < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p5.y - (-8.8)) < Point2DF::TOLERANCE );
   }
    // Point3D
   {
@@ -190,15 +190,15 @@ void TestResources::point_arithmetic(){
 
    Point3DF p5=2*p4;
 
-   QVERIFY( abs(p5.x - 6)  < Point3DF::TOLERANCE );
-   QVERIFY( abs(p5.y - 12) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p5.z - 18) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p5.x - 6)  < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p5.y - 12) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p5.z - 18) < Point3DF::TOLERANCE );
 
    p5=p4*3;
 
-   QVERIFY( abs(p5.x - 9)  < Point3DF::TOLERANCE );
-   QVERIFY( abs(p5.y - 18) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p5.z - 27) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p5.x - 9)  < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p5.y - 18) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p5.z - 27) < Point3DF::TOLERANCE );
 
    Point3D p6 = p1.cross(p2);
 
@@ -212,48 +212,48 @@ void TestResources::point_arithmetic(){
    Point3DF p3=p1+p2;
    Point3DF p4=p1-p2;
 
-   QVERIFY( abs(p3.x - 4.4)    < Point3DF::TOLERANCE );
-   QVERIFY( abs(p3.y - (-2.2)) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p3.z - 1.5)    < Point3DF::TOLERANCE );
-   QVERIFY( abs(p4.x - 2.2)    < Point3DF::TOLERANCE );
-   QVERIFY( abs(p4.y - (-6.6)) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p4.z - (-0.5)) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p1.dot(p2) - p2.dot(p1)) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p1.dot(p2) - (-5.55)) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p3.x - 4.4)    < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p3.y - (-2.2)) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p3.z - 1.5)    < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p4.x - 2.2)    < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p4.y - (-6.6)) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p4.z - (-0.5)) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p1.dot(p2) - p2.dot(p1)) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p1.dot(p2) - (-5.55)) < Point3DF::TOLERANCE );
 
    p3+=p2;
    p4-=p2;
 
-   QVERIFY( abs(p3.x - 5.5)    < Point3DF::TOLERANCE );
-   QVERIFY( abs(p3.y - 0)      < Point3DF::TOLERANCE );
-   QVERIFY( abs(p3.z - 2.5)    < Point3DF::TOLERANCE );
-   QVERIFY( abs(p4.x - 1.1)    < Point3DF::TOLERANCE );
-   QVERIFY( abs(p4.y - (-8.8)) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p4.z - (-1.5)) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p3.x - 5.5)    < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p3.y - 0)      < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p3.z - 2.5)    < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p4.x - 1.1)    < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p4.y - (-8.8)) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p4.z - (-1.5)) < Point3DF::TOLERANCE );
 
    Point3DF p5=2*p4;
 
-   QVERIFY( abs(p5.x - 2.2)    < Point3DF::TOLERANCE );
-   QVERIFY( abs(p5.y - (-17.6))< Point3DF::TOLERANCE );
-   QVERIFY( abs(p5.z - (-3.0)) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p5.x - 2.2)    < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p5.y - (-17.6))< Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p5.z - (-3.0)) < Point3DF::TOLERANCE );
 
    p5=p4*.5;
 
-   QVERIFY( abs(p5.x - 0.55)   < Point3DF::TOLERANCE );
-   QVERIFY( abs(p5.y - (-4.4)) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p5.z - (-0.75))< Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p5.x - 0.55)   < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p5.y - (-4.4)) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p5.z - (-0.75))< Point3DF::TOLERANCE );
 
    p5*=2;
 
-   QVERIFY( abs(p5.x - 1.1)    < Point3DF::TOLERANCE );
-   QVERIFY( abs(p5.y - (-8.8)) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p5.z - (-1.5)) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p5.x - 1.1)    < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p5.y - (-8.8)) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p5.z - (-1.5)) < Point3DF::TOLERANCE );
 
    Point3DF p6 = p1.cross(p2);
 
-   QVERIFY( abs(p6.x - (-5.5)) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p6.y - (-2.75))< Point3DF::TOLERANCE );
-   QVERIFY( abs(p6.z - 12.10)  < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p6.x - (-5.5)) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p6.y - (-2.75))< Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p6.z - 12.10)  < Point3DF::TOLERANCE );
   }
 }
 
@@ -275,14 +275,14 @@ void TestResources::point_member_access(){
 
    QVERIFY( p2d[0] == 11 );
    QVERIFY( p2d[1] == 22 );
-   QVERIFY( abs(p2df[0] - 11) < Point2DF::TOLERANCE );
-   QVERIFY( abs(p2df[1] - 22) < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p2df[0] - 11) < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p2df[1] - 22) < Point2DF::TOLERANCE );
    QVERIFY( p3d[0] == 11 );
    QVERIFY( p3d[1] == 22 );
    QVERIFY( p3d[2] == 33 );
-   QVERIFY( abs(p3df[0] - 11) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p3df[1] - 22) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p3df[2] - 33) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p3df[0] - 11) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p3df[1] - 22) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p3df[2] - 33) < Point3DF::TOLERANCE );
 
    QVERIFY_EXCEPTION_THROWN( p2d[-1] , std::out_of_range );
    QVERIFY_EXCEPTION_THROWN( p2d[2] , std::out_of_range );
@@ -348,32 +348,32 @@ void TestResources::point_normalization(){
    Point3D  p3d(3,4,12);
    Point3DF p3df(3,4,12);
 
-   QVERIFY( abs(p2d.length() - 5)  < Point2DF::TOLERANCE );
-   QVERIFY( abs(p2df.length() - 5) < Point2DF::TOLERANCE );
-   QVERIFY( abs(p3d.length() - 13) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p3df.length() - 13)< Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p2d.length() - 5)  < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p2df.length() - 5) < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p3d.length() - 13) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p3df.length() - 13)< Point3DF::TOLERANCE );
 
    Point2DF p2dn = p2d.normalize();
    Point2DF p2dfn = p2df.normalize();
    Point3DF p3dn = p3d.normalize();
    Point3DF p3dfn = p3df.normalize();
 
-   QVERIFY( abs(p2dn.length() - 1)  < Point2DF::TOLERANCE );
-   QVERIFY( abs(p2dfn.length() - 1) < Point2DF::TOLERANCE );
-   QVERIFY( abs(p3dn.length() - 1)  < Point3DF::TOLERANCE );
-   QVERIFY( abs(p3dfn.length() - 1) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p2dn.x - .6)  < Point2DF::TOLERANCE );
-   QVERIFY( abs(p2dfn.x - .6) < Point2DF::TOLERANCE );
-   QVERIFY( abs(p3dn.x - 3.0/13)  < Point3DF::TOLERANCE );
-   QVERIFY( abs(p3dfn.x - 3.0/13) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p2dn.length() - 1)  < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p2dfn.length() - 1) < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p3dn.length() - 1)  < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p3dfn.length() - 1) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p2dn.x - .6)  < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p2dfn.x - .6) < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p3dn.x - 3.0/13)  < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p3dfn.x - 3.0/13) < Point3DF::TOLERANCE );
 }
 
 void TestResources::point_constructors(){
    Point2D p2d(1,2);
 
    Point2DF p2df(p2d);
-   QVERIFY( abs(p2df.x - 1) < Point2DF::TOLERANCE );
-   QVERIFY( abs(p2df.y - 2) < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p2df.x - 1) < Point2DF::TOLERANCE );
+   QVERIFY( std::abs(p2df.y - 2) < Point2DF::TOLERANCE );
 
    Point3D p3d(p2d,3);
    QVERIFY( p3d.x == 1 );
@@ -382,12 +382,12 @@ void TestResources::point_constructors(){
 
    Point3DF p3df1(p3d);
    Point3DF p3df2(p2df,3);
-   QVERIFY( abs(p3df1.x - 1) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p3df1.y - 2) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p3df1.z - 3) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p3df2.x - 1) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p3df2.y - 2) < Point3DF::TOLERANCE );
-   QVERIFY( abs(p3df2.z - 3) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p3df1.x - 1) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p3df1.y - 2) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p3df1.z - 3) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p3df2.x - 1) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p3df2.y - 2) < Point3DF::TOLERANCE );
+   QVERIFY( std::abs(p3df2.z - 3) < Point3DF::TOLERANCE );
 }
 
 void TestResources::point_combined(){
@@ -435,7 +435,7 @@ void TestResources::point_combined(){
   }
 
    Point3DF p0(0,0,0), p1(1,2,3), p2(1.5, 3.5, 0.2), p3(3.14, 1.62, 1.1);
-   QVERIFY( abs((p1.cross(p2)).dot(p3)) == abs(p1.dot(p2.cross(p3))) );
+   QVERIFY( std::abs( (p1.cross(p2)).dot(p3) - (p1.dot(p2.cross(p3))) ) < TOLERANCE);
    QVERIFY( (p1.dot(p2) - p2.dot(p1)) < Point3DF::TOLERANCE ); // commutative
    QVERIFY( p1.cross(p2) == p0-(p2.cross(p1)) ); // anti-commutative
    QVERIFY( p1.cross(p2.cross(p3)) +
@@ -447,16 +447,16 @@ void TestResources::point_combined(){
 void TestResources::matrix_member_access(){
    Matrix M;
    M.m[2][3] = 2.0;
-   QVERIFY( abs(M[2][3] - 2) < TOLERANCE );
+   QVERIFY( std::abs(M[2][3] - 2) < TOLERANCE );
 }
 
 void TestResources::matrix_transpose(){
    Matrix M;
    M.m[2][3] = 2.0;
    M = M.transpose();
-   QVERIFY( abs(M[2][2] - 1) < TOLERANCE );
-   QVERIFY( abs(M[2][3] - 0) < TOLERANCE );
-   QVERIFY( abs(M[3][2] - 2) < TOLERANCE );
+   QVERIFY( std::abs(M[2][2] - 1) < TOLERANCE );
+   QVERIFY( std::abs(M[2][3] - 0) < TOLERANCE );
+   QVERIFY( std::abs(M[3][2] - 2) < TOLERANCE );
 }
 
 void TestResources::matrix_constructors(){
@@ -467,35 +467,35 @@ void TestResources::matrix_constructors(){
    Matrix My = Matrix::RotationMatrix('y', 30);
    Matrix Mz = Matrix::RotationMatrix('z', 30);
 
-   QVERIFY( abs(Mt.m[0][3] - 5 ) < Matrix::TOLERANCE );
-   QVERIFY( abs(Mt.m[0][0] - 1 ) < Matrix::TOLERANCE );
-   QVERIFY( abs(Mt.m[1][3] - 10) < Matrix::TOLERANCE );
-   QVERIFY( abs(Mt.m[2][3] - 15) < Matrix::TOLERANCE );
-   QVERIFY( abs(Mt.m[3][3] - 1 ) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Mt.m[0][3] - 5 ) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Mt.m[0][0] - 1 ) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Mt.m[1][3] - 10) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Mt.m[2][3] - 15) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Mt.m[3][3] - 1 ) < Matrix::TOLERANCE );
 
-   QVERIFY( abs(Ms.m[0][0] - 5 ) < Matrix::TOLERANCE );
-   QVERIFY( abs(Ms.m[0][1] - 0 ) < Matrix::TOLERANCE );
-   QVERIFY( abs(Ms.m[1][1] - 10) < Matrix::TOLERANCE );
-   QVERIFY( abs(Ms.m[2][2] - 15) < Matrix::TOLERANCE );
-   QVERIFY( abs(Ms.m[3][3] - 1 ) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Ms.m[0][0] - 5 ) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Ms.m[0][1] - 0 ) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Ms.m[1][1] - 10) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Ms.m[2][2] - 15) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Ms.m[3][3] - 1 ) < Matrix::TOLERANCE );
 
-   QVERIFY( abs(Mx.m[0][0] - 1     ) < Matrix::TOLERANCE );
-   QVERIFY( abs(Mx.m[1][1] - 0.8660) < Matrix::TOLERANCE );
-   QVERIFY( abs(Mx.m[1][2] - (-0.5)) < Matrix::TOLERANCE );
-   QVERIFY( abs(Mx.m[2][1] - 0.5   ) < Matrix::TOLERANCE );
-   QVERIFY( abs(Mx.m[2][2] - 0.8660) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Mx.m[0][0] - 1     ) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Mx.m[1][1] - 0.8660) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Mx.m[1][2] - (-0.5)) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Mx.m[2][1] - 0.5   ) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Mx.m[2][2] - 0.8660) < Matrix::TOLERANCE );
 
-   QVERIFY( abs(My.m[1][1] - 1     ) < Matrix::TOLERANCE );
-   QVERIFY( abs(My.m[2][2] - 0.8660) < Matrix::TOLERANCE );
-   QVERIFY( abs(My.m[2][0] - 0.5   ) < Matrix::TOLERANCE );
-   QVERIFY( abs(My.m[0][2] - (-0.5)) < Matrix::TOLERANCE );
-   QVERIFY( abs(My.m[0][0] - 0.8660) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(My.m[1][1] - 1     ) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(My.m[2][2] - 0.8660) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(My.m[2][0] - 0.5   ) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(My.m[0][2] - (-0.5)) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(My.m[0][0] - 0.8660) < Matrix::TOLERANCE );
 
-   QVERIFY( abs(Mz.m[2][2] - 1     ) < Matrix::TOLERANCE );
-   QVERIFY( abs(Mz.m[0][0] - 0.8660) < Matrix::TOLERANCE );
-   QVERIFY( abs(Mz.m[0][1] - 0.5   ) < Matrix::TOLERANCE );
-   QVERIFY( abs(Mz.m[1][0] - (-0.5)) < Matrix::TOLERANCE );
-   QVERIFY( abs(Mz.m[1][1] - 0.8660) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Mz.m[2][2] - 1     ) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Mz.m[0][0] - 0.8660) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Mz.m[0][1] - 0.5   ) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Mz.m[1][0] - (-0.5)) < Matrix::TOLERANCE );
+   QVERIFY( std::abs(Mz.m[1][1] - 0.8660) < Matrix::TOLERANCE );
 
    QVERIFY_EXCEPTION_THROWN( Matrix('A'), std::invalid_argument );
 }

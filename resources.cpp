@@ -381,24 +381,24 @@ Matrix Matrix::RotationMatrix(char axis, float degrees){
    {
    case 'x':
    case 'X':
-      M[1][1] = M[1][1]*cos(degrees/180*M_PI);
-      M[1][2] =-M[2][2]*sin(degrees/180*M_PI);
-      M[2][1] = M[1][1]*sin(degrees/180*M_PI);
-      M[2][2] = M[2][2]*cos(degrees/180*M_PI);
+      M[1][1] = cos(degrees/180*M_PI);
+      M[1][2] =-sin(degrees/180*M_PI);
+      M[2][1] = sin(degrees/180*M_PI);
+      M[2][2] = cos(degrees/180*M_PI);
       break;
    case 'y':
    case 'Y':
-      M[2][2] = M[2][2]*cos(degrees/180*M_PI);
-      M[2][0] = M[0][0]*sin(degrees/180*M_PI);
-      M[0][2] =-M[2][2]*sin(degrees/180*M_PI);
-      M[0][0] = M[0][0]*cos(degrees/180*M_PI);
+      M[2][2] = cos(degrees/180*M_PI);
+      M[2][0] = sin(degrees/180*M_PI);
+      M[0][2] =-sin(degrees/180*M_PI);
+      M[0][0] = cos(degrees/180*M_PI);
       break;
    case 'z':
    case 'Z':
-      M[0][0] = M[2][2]*cos(degrees/180*M_PI);
-      M[0][1] = M[1][1]*sin(degrees/180*M_PI);
-      M[1][0] =-M[2][2]*sin(degrees/180*M_PI);
-      M[1][1] = M[1][1]*cos(degrees/180*M_PI);
+      M[0][0] = cos(degrees/180*M_PI);
+      M[0][1] = sin(degrees/180*M_PI);
+      M[1][0] =-sin(degrees/180*M_PI);
+      M[1][1] = cos(degrees/180*M_PI);
       break;
    default:
       throw;
