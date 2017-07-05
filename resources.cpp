@@ -8,10 +8,18 @@
 #include <stdexcept>
 #include <cmath>
 #include <cstdio>
+#include <cstdlib> // randoms
+#include <ctime>   // time to seed random
 
 // Implementation of various structs used by my graphics_engine
 
 // Point2D
+Point2D Point2D::random(int x1, int y1, int x2, int y2){
+   srand(time(NULL));
+   int x = rand() % abs(x1-x2) + fmin(x1,x2);
+   int y = rand() % abs(y1-y2) + fmin(y1,y2);
+   return Point2D(x,y);
+}
 int& Point2D::operator[](int idx){
    switch(idx)
    {
@@ -68,6 +76,12 @@ void Point2D::print() const{
 }
 
 // Point2DF
+Point2DF Point2DF::random(float x1, float y1, float x2, float y2){
+   srand(time(NULL));
+   float x = (((float)rand()) / RAND_MAX) * (x2-x1) + x1;
+   float y = (((float)rand()) / RAND_MAX) * (y2-y1) + y1;
+   return Point2DF(x,y);
+}
 float& Point2DF::operator[](int idx){
    switch(idx)
    {
@@ -135,6 +149,13 @@ void Point2DF::print() const{
 }
 
 // Point3D
+Point3D Point3D::random(int x1, int y1, int z1, int x2, int y2, int z2){
+   srand(time(NULL));
+   int x = rand() % abs(x1-x2) + fmin(x1,x2);
+   int y = rand() % abs(y1-y2) + fmin(y1,y2);
+   int z = rand() % abs(z1-z2) + fmin(z1,z2);
+   return Point3D(x,y,z);
+}
 int& Point3D::operator[](int idx){
    switch(idx)
    {
@@ -212,6 +233,13 @@ void Point3D::print() const{
 }
 
 // Point3DF
+Point3DF Point3DF::random(float x1, float y1, float z1, float x2, float y2, float z2){
+   srand(time(NULL));
+   float x = (((float)rand()) / RAND_MAX) * (x2-x1) + x1;
+   float y = (((float)rand()) / RAND_MAX) * (y2-y1) + y1;
+   float z = (((float)rand()) / RAND_MAX) * (z2-z1) + z1;
+   return Point3DF(x,y,z);
+}
 float& Point3DF::operator[](int idx){
    switch(idx)
    {

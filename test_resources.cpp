@@ -3,6 +3,8 @@
 #include "resources.h"
 #include <stdexcept>
 #include <climits>
+#include <cstdlib> // rand
+#include <ctime>   // for seeding rand
 
 class TestResources: public QObject
 {
@@ -19,6 +21,7 @@ private slots:
    void point_normalization();
    void point_constructors();
    void point_combined();
+   void point_random();
 
    void matrix_constructors();
    void matrix_inversion();
@@ -442,6 +445,38 @@ void TestResources::point_combined(){
             p2.cross(p3.cross(p1)) +
             p3.cross(p1.cross(p2)) == p0 ); // Jacobi identity
    QVERIFY( p1.cross(p2+p3) == (p1.cross(p2))+(p1.cross(p3)) ); // distributative
+}
+
+void TestResources::point_random(){
+   srand(time(NULL));
+   for( int i = 0; i < 5; i++){
+      int x1 = rand()-rand(); int y1 = rand()-rand(); int z1 = rand()-rand();
+      int x2 = rand()-rand(); int y2 = rand()-rand(); int z2 = rand()-rand();
+      Point2D p2d = Point2D::random(x1, y1, x2, y2);
+      QVERIFY( p2d.x >= x1 || p2d.x >= x2);
+      QVERIFY( p2d.y >= y1 || p2d.y >= y2);
+      QVERIFY( p2d.x <= x1 || p2d.x <= x2);
+      QVERIFY( p2d.y <= y1 || p2d.y <= y2);
+      Point2DF p2df = Point2DF::random(x1, y1, x2, y2);
+      QVERIFY( p2df.x >= x1 || p2df.x >= x2);
+      QVERIFY( p2df.y >= y1 || p2df.y >= y2);
+      QVERIFY( p2df.x <= x1 || p2df.x <= x2);
+      QVERIFY( p2df.y <= y1 || p2df.y <= y2);
+      Point3D p3d = Point3D::random(x1, y1, z1, x2, y2, z2);
+      QVERIFY( p3d.x >= x1 || p3d.x >= x2);
+      QVERIFY( p3d.y >= y1 || p3d.y >= y2);
+      QVERIFY( p3d.z >= z1 || p3d.z >= z2);
+      QVERIFY( p3d.x <= x1 || p3d.x <= x2);
+      QVERIFY( p3d.y <= y1 || p3d.y <= y2);
+      QVERIFY( p3d.z <= z1 || p3d.z <= z2);
+      Point3DF p3df = Point3DF::random(x1, y1, z1, x2, y2, z2);
+      QVERIFY( p3df.x >= x1 || p3df.x >= x2);
+      QVERIFY( p3df.y >= y1 || p3df.y >= y2);
+      QVERIFY( p3df.z >= z1 || p3df.z >= z2);
+      QVERIFY( p3df.x <= x1 || p3df.x <= x2);
+      QVERIFY( p3df.y <= y1 || p3df.y <= y2);
+      QVERIFY( p3df.z <= z1 || p3df.z <= z2);
+   }
 }
 
 void TestResources::matrix_member_access(){

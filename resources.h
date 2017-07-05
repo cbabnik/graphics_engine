@@ -29,6 +29,7 @@ struct Point2D
 {
    // constructors
    Point2D(int xVal, int yVal) : x(xVal), y(yVal) {};
+   static Point2D random(int x1, int y1, int x2, int y2);
    // members
    int x;
    int y;
@@ -58,6 +59,7 @@ struct Point2DF
    // constructors
    Point2DF(float xVal, float yVal) : x(xVal), y(yVal) {};
    Point2DF(Point2D p) : x(p.x), y(p.y) {};
+   static Point2DF random(float x1, float y1, float x2, float y2);
    // members
    float x;
    float y;
@@ -89,6 +91,7 @@ struct Point3D
    // constructors
    Point3D(int xVal, int yVal, int zVal) : x(xVal), y(yVal), z(zVal) {};
    Point3D(Point2D p, float zVal) : x(p.x), y(p.y), z(zVal) {};
+   static Point3D random(int x1, int y1, int z1, int x2, int y2, int z2);
    // members
    int x;
    int y;
@@ -125,6 +128,7 @@ struct Point3DF
    Point3DF(float xVal, float yVal, float zVal) : x(xVal), y(yVal), z(zVal) {};
    Point3DF(Point2DF p, float zVal) : x(p.x), y(p.y), z(zVal) {};
    Point3DF(Point3D p) : x(p.x), y(p.y), z(p.z) {};
+   static Point3DF random(float x1,float y1,float z1,float x2,float y2,float z2);
    // members
    float x;
    float y;
