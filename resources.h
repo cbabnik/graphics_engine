@@ -219,6 +219,7 @@ public:
    Color();
    Color(unsigned int color);
    Color(uint8_t r, uint8_t g, uint8_t b);
+   static Color random();
    // members
    union{
       struct{

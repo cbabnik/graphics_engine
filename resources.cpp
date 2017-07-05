@@ -598,6 +598,13 @@ Color::Color(uint8_t r, uint8_t g, uint8_t b){
    colorComponent.green = g;
    colorComponent.blue = b;
 }
+Color Color::random(){
+   srand(time(NULL));
+   uint8_t r = rand() % 256;
+   uint8_t g = rand() % 256;
+   uint8_t b = rand() % 256;
+   return Color(r, g, b);
+}
 uint8_t& Color::operator[](int idx){
    switch(idx)
    {
