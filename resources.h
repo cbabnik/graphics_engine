@@ -228,7 +228,7 @@ public:
          uint8_t red;
          uint8_t alpha; // UNUSED
       } colorComponent;
-      unsigned int color;
+      unsigned int uint_val;
    };
    // member access
          uint8_t& operator[](int idx);

@@ -690,15 +690,15 @@ void TestResources::color_constructors(){
    Color c2(0xaaffaa00);
    Color c3(255,100,0);
 
-   QVERIFY( (c1.color & c1.rgbMask) == 0                     );
+   QVERIFY( (c1.uint_val & c1.rgbMask) == 0                     );
    QVERIFY( c1.colorComponent.red   == 0                     );
    QVERIFY( c1.colorComponent.green == 0                     );
    QVERIFY( c1.colorComponent.blue  == 0                     );
-   QVERIFY( (c2.color & c2.rgbMask) == 0x00ffaa00            );
+   QVERIFY( (c2.uint_val & c2.rgbMask) == 0x00ffaa00            );
    QVERIFY( c2.colorComponent.red   == 0xff                  );
    QVERIFY( c2.colorComponent.green == 0xaa                  );
    QVERIFY( c2.colorComponent.blue  == 0x00                  );
-   QVERIFY( (c3.color & c3.rgbMask) == 255*256*256 + 100*256 );
+   QVERIFY( (c3.uint_val & c3.rgbMask) == 255*256*256 + 100*256 );
    QVERIFY( c3.colorComponent.red   == 255                   );
    QVERIFY( c3.colorComponent.green == 100                   );
    QVERIFY( c3.colorComponent.blue  == 0                     );
@@ -706,7 +706,7 @@ void TestResources::color_constructors(){
 void TestResources::color_assignment(){
    Color c1 = 0xa3ff00aa;
 
-   QVERIFY( (c1.color & c1.rgbMask) == 0x00ff00aa );
+   QVERIFY( (c1.uint_val & c1.rgbMask) == 0x00ff00aa );
    QVERIFY( c1.colorComponent.red   == 0xff       );
    QVERIFY( c1.colorComponent.green == 0x00       );
    QVERIFY( c1.colorComponent.blue  == 0xaa       );
@@ -738,23 +738,23 @@ void TestResources::color_arithmetic(){
    Color c7 = 0x000a0b0c;
    c7 *= 0x11;
 
-   QVERIFY( (c1.color & Color::rgbMask) == 0x112233 );
-   QVERIFY( (c2.color & Color::rgbMask) == 0x204060 );
-   QVERIFY( (c3.color & Color::rgbMask) == 0x224466 );
-   QVERIFY( (c4.color & Color::rgbMask) == 0x336699 );
-   QVERIFY( (c5.color & Color::rgbMask) == 0xffffff );
-   QVERIFY( (c6.color & Color::rgbMask) == 0x000000 );
-   QVERIFY( (c7.color & Color::rgbMask) == 0xaabbcc );
+   QVERIFY( (c1.uint_val & Color::rgbMask) == 0x112233 );
+   QVERIFY( (c2.uint_val & Color::rgbMask) == 0x204060 );
+   QVERIFY( (c3.uint_val & Color::rgbMask) == 0x224466 );
+   QVERIFY( (c4.uint_val & Color::rgbMask) == 0x336699 );
+   QVERIFY( (c5.uint_val & Color::rgbMask) == 0xffffff );
+   QVERIFY( (c6.uint_val & Color::rgbMask) == 0x000000 );
+   QVERIFY( (c7.uint_val & Color::rgbMask) == 0xaabbcc );
 
    Color c8 = c1+c2;
    Color c9 = c2-c1;
    c3 += c4;
    c5 -= c7;
 
-   QVERIFY( (c8.color & Color::rgbMask) == 0x316293 );
-   QVERIFY( (c9.color & Color::rgbMask) == 0x0f1e2d );
-   QVERIFY( (c3.color & Color::rgbMask) == 0x55aaff );
-   QVERIFY( (c5.color & Color::rgbMask) == 0x554433 );
+   QVERIFY( (c8.uint_val & Color::rgbMask) == 0x316293 );
+   QVERIFY( (c9.uint_val & Color::rgbMask) == 0x0f1e2d );
+   QVERIFY( (c3.uint_val & Color::rgbMask) == 0x55aaff );
+   QVERIFY( (c5.uint_val & Color::rgbMask) == 0x554433 );
 }
 void TestResources::color_comparison(){
    Color c1(0x00112233);
@@ -771,7 +771,7 @@ void TestResources::color_combined(){
    c1 = 0xab4d1f;
    Color c2(50,20,10);
 
-   QVERIFY( ((2.3*c2).color & Color::rgbMask) == 0x732e17 );
+   QVERIFY( ((2.3*c2).uint_val & Color::rgbMask) == 0x732e17 );
 
    c2 *= 32.0/10;
 
@@ -784,7 +784,7 @@ void TestResources::color_combined(){
 
    c2[2] = c2[1];
 
-   QVERIFY( (c2.color & Color::rgbMask) == 0xab4d4d );
+   QVERIFY( (c2.uint_val & Color::rgbMask) == 0xab4d4d );
 }
 
 QTEST_MAIN(TestResources)

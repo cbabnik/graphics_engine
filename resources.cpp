@@ -587,10 +587,10 @@ Point3DF operator*(const Point3D& lhs, const Matrix& rhs){
 //Color
 //=====
 Color::Color(){
-   this->color = 0;
+   this->uint_val = 0;
 }
 Color::Color(unsigned int color){
-   this->color = color & rgbMask;
+   this->uint_val = color & rgbMask;
 }
 Color::Color(uint8_t r, uint8_t g, uint8_t b){
    colorComponent.alpha = 0;
@@ -624,7 +624,7 @@ const uint8_t& Color::operator[](int idx) const{
    }
 }
 Color& Color::operator=(unsigned int rhs){
-   this->color = rhs & rgbMask;
+   this->uint_val = rhs & rgbMask;
    return (*this);
 }
 bool Color::operator==(const Color& rhs) const{
@@ -636,7 +636,7 @@ bool Color::operator!=(const Color& rhs) const{
    return !((*this)==rhs);
 }
 bool Color::operator==(unsigned int rhs) const{
-   return ((color&rgbMask) == (rhs&rgbMask));
+   return ((uint_val&rgbMask) == (rhs&rgbMask));
 }
 bool Color::operator!=(unsigned int rhs) const{
    return !((*this)==rhs);
@@ -706,7 +706,7 @@ Color& Color::operator-=(const Color& rhs){
    return (*this);
 }
 void Color::print() const{
-   printf("Color: 0x%x\n", color);
+   printf("Color: 0x%x\n", uint_val);
    printf("   alpha: %d\n", colorComponent.alpha);
    printf("   red  : %d\n", colorComponent.red);
    printf("   green: %d\n", colorComponent.green);
