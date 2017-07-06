@@ -71,7 +71,7 @@ void LineRenderer::draw_line(Point2D p1, Point2D p2, Color color1, Color color2)
       else
          err_y = err_y + two_dy; // add the slope
       // handle color the same way as y ( but add the per pixel val)
-      color.color += ppc;
+      color.uint_val += ppc;
       for( int i = 0; i < 3; i++ ){
          if( err_cc[i] >= 0 ){
             err_cc[i] += t2_cc[i];
@@ -198,7 +198,7 @@ void LineRenderer::draw_line(Point3D p1, Point3D p2, Color color1, Color color2)
       else
          err_z = err_z + two_rz;
       // handle color the same way as y ( but add the per pixel val)
-      color.color += ppc;
+      color.uint_val += ppc;
       for( int i = 0; i < 3; i++ ){
          if( err_cc[i] >= 0 ){
             err_cc[i] += t2_cc[i];
@@ -492,16 +492,16 @@ void LineRenderer::setPixel(int x, int y, Color color, unsigned char octant){
    switch( octant )
    {
    case 1:
-      draw_pixel(x, y, color.color);
+      draw_pixel(x, y, color.uint_val);
       break;
    case 2:
-      draw_pixel(y, x, color.color);
+      draw_pixel(y, x, color.uint_val);
       break;
    case 7:
-      draw_pixel(y, -x, color.color);
+      draw_pixel(y, -x, color.uint_val);
       break;
    case 8:
-      draw_pixel(x, -y, color.color);
+      draw_pixel(x, -y, color.uint_val);
       break;
    default:
       throw "Unrecognized octant";
@@ -511,16 +511,16 @@ void LineRenderer::setPixel(int x, int y, int z, Color color, unsigned char octa
    switch( octant )
    {
    case 1:
-      draw_pixel(x, y, z, color.color);
+      draw_pixel(x, y, z, color.uint_val);
       break;
    case 2:
-      draw_pixel(y, x, z, color.color);
+      draw_pixel(y, x, z, color.uint_val);
       break;
    case 7:
-      draw_pixel(y, -x, z, color.color);
+      draw_pixel(y, -x, z, color.uint_val);
       break;
    case 8:
-      draw_pixel(x, -y, z, color.color);
+      draw_pixel(x, -y, z, color.uint_val);
       break;
    default:
       throw "Unrecognized octant";
