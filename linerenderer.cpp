@@ -472,18 +472,10 @@ unsigned char LineRenderer::transformOctant(Point3D& p1, Point3D& p2){
 void LineRenderer::setPixel(int x, int y, int z, unsigned char octant){
    switch( octant )
    {
-   case 1:
-      draw_pixel(x, y, z);
-      break;
-   case 2:
-      draw_pixel(y, x, z);
-      break;
-   case 7:
-      draw_pixel(y, -x, z);
-      break;
-   case 8:
-      draw_pixel(x, -y, z);
-      break;
+   case 1: draw_pixel(x,  y, z); break;
+   case 2: draw_pixel(y,  x, z); break;
+   case 7: draw_pixel(y, -x, z); break;
+   case 8: draw_pixel(x, -y, z); break;
    default:
       throw "Unrecognized octant";
    }
@@ -491,18 +483,10 @@ void LineRenderer::setPixel(int x, int y, int z, unsigned char octant){
 void LineRenderer::setPixel(int x, int y, Color color, unsigned char octant){
    switch( octant )
    {
-   case 1:
-      draw_pixel(x, y, color.uint_val);
-      break;
-   case 2:
-      draw_pixel(y, x, color.uint_val);
-      break;
-   case 7:
-      draw_pixel(y, -x, color.uint_val);
-      break;
-   case 8:
-      draw_pixel(x, -y, color.uint_val);
-      break;
+   case 1: draw_pixel(x,  y, color.uint_val); break;
+   case 2: draw_pixel(y,  x, color.uint_val); break;
+   case 7: draw_pixel(y, -x, color.uint_val); break;
+   case 8: draw_pixel(x, -y, color.uint_val); break;
    default:
       throw "Unrecognized octant";
    }
@@ -510,18 +494,10 @@ void LineRenderer::setPixel(int x, int y, Color color, unsigned char octant){
 void LineRenderer::setPixel(int x, int y, int z, Color color, unsigned char octant){
    switch( octant )
    {
-   case 1:
-      draw_pixel(x, y, z, color.uint_val);
-      break;
-   case 2:
-      draw_pixel(y, x, z, color.uint_val);
-      break;
-   case 7:
-      draw_pixel(y, -x, z, color.uint_val);
-      break;
-   case 8:
-      draw_pixel(x, -y, z, color.uint_val);
-      break;
+   case 1: draw_pixel(x,  y, z, color.uint_val); break;
+   case 2: draw_pixel(y,  x, z, color.uint_val); break;
+   case 7: draw_pixel(y, -x, z, color.uint_val); break;
+   case 8: draw_pixel(x, -y, z, color.uint_val); break;
    default:
       throw "Unrecognized octant";
    }
