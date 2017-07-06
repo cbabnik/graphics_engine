@@ -2,6 +2,7 @@
 #define RENDERER_H
 
 #include "renderarea.h"
+#include "resources.h"
 
 // A renderer base class wrapper for all drawing functions
 // Accomplishes 3-D with depth cueing and z-buffer
@@ -23,11 +24,15 @@ public:
    // updateScreen wrapper. So we don't need to keep a reference to renderArea
    void update();
 
-private:
+protected:
    int xMin, xMax;
    int yMin, yMax;
    int zMin, zMax;
 
+   Outcode outcode(int x, int y);
+   Outcode outcode(int x, int y, int z);
+
+private:
    uint *colorByDepth;
    int *zBuffer;
 

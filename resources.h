@@ -21,6 +21,7 @@ class Matrix;
 class Color;
 struct Line;
 struct Polygon;
+struct Outcode;
 
 // Points (or vectors)
 // + F indicates float form, as opposed to int
@@ -288,6 +289,24 @@ struct Polygon
    Color c1;
    Color c2;
    Color c3;
+};
+
+struct Outcode
+{
+   Outcode() { value = 0; };
+   Outcode(unsigned int val) : value(val) {};
+   union{
+      struct{
+         unsigned int left  : 1;
+         unsigned int right : 1;
+         unsigned int top   : 1;
+         unsigned int bottom: 1;
+         unsigned int front : 1;
+         unsigned int back  : 1;
+         // 26 bits unused
+      } out;
+      unsigned int value;
+   };
 };
 
 #endif // RESOURCES_H

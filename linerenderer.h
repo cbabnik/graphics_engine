@@ -2,7 +2,6 @@
 #define LINE_RENDERER_H
 
 #include "renderer.h"
-#include "resources.h"
 
 class LineRenderer : public Renderer
 {
@@ -15,6 +14,11 @@ public:
    void draw_line(Point3D p1, Point3D p2, Color color1, Color color2);
 
 private:
+   // if the line isn't within the bounds at all, returns false without modifying
+   bool clipLine(Point2D& p1, Point2D& p2);
+   bool clipLine(Point3D& p1, Point3D& p2);
+   bool clipLine(Point2D& p1, Point2D& p2, Color& c1, Color& c2);
+   bool clipLine(Point3D& p1, Point3D& p2, Color& c1, Color& c2);
    // sorts points by x and returns whether they were resorted
    bool sortPoints(Point2D& p1, Point2D& p2);
    bool sortPoints(Point3D& p1, Point3D& p2);

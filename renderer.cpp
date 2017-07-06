@@ -64,3 +64,22 @@ uint Renderer::get_color(int x, int y) const{
 void Renderer::update(){
    renderArea->updateScreen();
 }
+
+Outcode Renderer::outcode(int x, int y){
+   Outcode o;
+   o.out.left  = x < xMin;
+   o.out.right = x > xMax;
+   o.out.top   = y < yMin;
+   o.out.bottom= y > yMax;
+   return o;
+}
+Outcode Renderer::outcode(int x, int y, int z){
+   Outcode o;
+   o.out.left  = x < xMin;
+   o.out.right = x > xMax;
+   o.out.top   = y < yMin;
+   o.out.bottom= y > yMax;
+   o.out.front = z < zMin;
+   o.out.back  = z > zMax;
+   return o;
+}

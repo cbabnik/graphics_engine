@@ -5,6 +5,8 @@
 #include <cmath>
 
 void LineRenderer::draw_line(Point2D p1, Point2D p2, Color color /*white*/ ){
+   if( ! clipLine(p1, p2) )
+      return;
    unsigned char octant = transformOctant( p1, p2 );
 
    int dx = p2.x - p1.x;
@@ -26,6 +28,8 @@ void LineRenderer::draw_line(Point2D p1, Point2D p2, Color color /*white*/ ){
    }
 }
 void LineRenderer::draw_line(Point2D p1, Point2D p2, Color color1, Color color2){
+   if( ! clipLine(p1, p2, color1, color2) )
+      return;
    if( sortPoints( p1, p2 ) ){
       Color swap = color1;
       color1 = color2;
@@ -80,6 +84,8 @@ void LineRenderer::draw_line(Point2D p1, Point2D p2, Color color1, Color color2)
    }
 }
 void LineRenderer::draw_line(Point3D p1, Point3D p2){
+   if( ! clipLine(p1, p2) )
+      return;
    unsigned char octant = transformOctant( p1, p2 );
 
    // intermediates ( math modulo to find remainder)
@@ -128,6 +134,8 @@ void LineRenderer::draw_line(Point3D p1, Point3D p2){
    }
 }
 void LineRenderer::draw_line(Point3D p1, Point3D p2, Color color1, Color color2){
+   if( ! clipLine(p1, p2, color1, color2) )
+      return;
    if( sortPoints( p1, p2 ) ){
       Color swap = color1;
       color1 = color2;
@@ -203,6 +211,182 @@ void LineRenderer::draw_line(Point3D p1, Point3D p2, Color color1, Color color2)
       setPixel(x, y, z, color, octant);
    }
 
+}
+
+// if one or both points are out of bounds, it will clip to the visable line.
+// If none of the line is visable, false is returned and no change is made.
+// You may want to do sorting AFTER, since this will mess with the points a bit
+bool LineRenderer::clipLine(Point2D& p1, Point2D& p2){
+   Outcode o1 = outcode(p1.x, p1.y);
+   Outcode o2 = outcode(p2.x, p2.y);
+   if ( (o1.value & o2.value) != 0 ) // whole line is out of bounds
+      return false;
+   if ( (o1.value | o2.value) == 0 ) // whole line is in bounds
+      return true;
+   if( o1.value != 0 ) { // point 1 (at least) is out of bounds
+      if (o1.out.left) {
+         float ratio = (float)(xMin-p1.x)/(p2.x-p1.x);
+         p1.y += (p2.y-p1.y)*ratio;
+         p1.x = xMin;
+      }
+      else if (o1.out.right) {
+         float ratio = (float)(xMax-p1.x)/(p2.x-p1.x);
+         p1.y += (p2.y-p1.y)*ratio;
+         p1.x = xMax;
+      }
+      else if (o1.out.top) {
+         float ratio = (float)(yMin-p1.y)/(p2.y-p1.y);
+         p1.x += (p2.x-p1.x)*ratio;
+         p1.y = yMin;
+      }
+      else if (o1.out.bottom) {
+         float ratio = (float)(yMax-p1.y)/(p2.y-p1.y);
+         p1.x += (p2.x-p1.x)*ratio;
+         p1.y = yMax;
+      }
+      return clipLine(p1, p2);
+   }
+   else // point 2 is out of bounds
+      return clipLine(p2, p1);
+}
+bool LineRenderer::clipLine(Point3D& p1, Point3D& p2){
+   Outcode o1 = outcode(p1.x, p1.y);
+   Outcode o2 = outcode(p2.x, p2.y);
+   if ( (o1.value & o2.value) != 0 ) // whole line is out of bounds
+      return false;
+   if ( (o1.value | o2.value) == 0 ) // whole line is in bounds
+      return true;
+   if( o1.value != 0 ) { // point 1 (at least) is out of bounds
+      if (o1.out.left) {
+         float ratio = (float)(xMin-p1.x)/(p2.x-p1.x);
+         p1.y += (p2.y-p1.y)*ratio;
+         p1.z += (p2.z-p1.z)*ratio;
+         p1.x = xMin;
+      }
+      else if (o1.out.right) {
+         float ratio = (float)(xMax-p1.x)/(p2.x-p1.x);
+         p1.y += (p2.y-p1.y)*ratio;
+         p1.z += (p2.z-p1.z)*ratio;
+         p1.x = xMax;
+      }
+      else if (o1.out.top) {
+         float ratio = (float)(yMin-p1.y)/(p2.y-p1.y);
+         p1.x += (p2.x-p1.x)*ratio;
+         p1.z += (p2.z-p1.z)*ratio;
+         p1.y = yMin;
+      }
+      else if (o1.out.bottom) {
+         float ratio = (float)(yMax-p1.y)/(p2.y-p1.y);
+         p1.x += (p2.x-p1.x)*ratio;
+         p1.z += (p2.z-p1.z)*ratio;
+         p1.y = yMax;
+      }
+      else if (o1.out.front) {
+         float ratio = (float)(zMin-p1.z)/(p2.z-p1.z);
+         p1.x += (p2.x-p1.x)*ratio;
+         p1.y += (p2.y-p1.y)*ratio;
+         p1.z = zMin;
+      }
+      else if (o1.out.back) {
+         float ratio = (float)(zMax-p1.z)/(p2.z-p1.z);
+         p1.x += (p2.x-p1.x)*ratio;
+         p1.y += (p2.y-p1.y)*ratio;
+         p1.z = zMax;
+      }
+      return clipLine(p1, p2);
+   }
+   else // point 2 is out of bounds
+      return clipLine(p2, p1);
+}
+bool LineRenderer::clipLine(Point2D& p1, Point2D& p2, Color& c1, Color& c2){
+   Outcode o1 = outcode(p1.x, p1.y);
+   Outcode o2 = outcode(p2.x, p2.y);
+   if ( (o1.value & o2.value) != 0 ) // whole line is out of bounds
+      return false;
+   if ( (o1.value | o2.value) == 0 ) // whole line is in bounds
+      return true;
+   if( o1.value != 0 ) { // point 1 (at least) is out of bounds
+      float ratio = 0;
+      if (o1.out.left) {
+         ratio = (float)(xMin-p1.x)/(p2.x-p1.x);
+         p1.y += (p2.y-p1.y)*ratio;
+         p1.x = xMin;
+      }
+      else if (o1.out.right) {
+         ratio = (float)(xMax-p1.x)/(p2.x-p1.x);
+         p1.y += (p2.y-p1.y)*ratio;
+         p1.x = xMax;
+      }
+      else if (o1.out.top) {
+         ratio = (float)(yMin-p1.y)/(p2.y-p1.y);
+         p1.x += (p2.x-p1.x)*ratio;
+         p1.y = yMin;
+      }
+      else if (o1.out.bottom) {
+         ratio = (float)(yMax-p1.y)/(p2.y-p1.y);
+         p1.x += (p2.x-p1.x)*ratio;
+         p1.y = yMax;
+      }
+      p1[0] = (p2[0]-p1[0])*ratio;
+      p1[1] = (p2[1]-p1[1])*ratio;
+      p1[2] = (p2[2]-p1[2])*ratio;
+      return clipLine(p1, p2, c1, c2);
+   }
+   else // point 2 is out of bounds
+      return clipLine(p2, p1, c2, c1);
+}
+bool LineRenderer::clipLine(Point3D& p1, Point3D& p2, Color& c1, Color& c2){
+   Outcode o1 = outcode(p1.x, p1.y);
+   Outcode o2 = outcode(p2.x, p2.y);
+   if ( (o1.value & o2.value) != 0 ) // whole line is out of bounds
+      return false;
+   if ( (o1.value | o2.value) == 0 ) // whole line is in bounds
+      return true;
+   if( o1.value != 0 ) { // point 1 (at least) is out of bounds
+      float ratio = 0;
+      if (o1.out.left) {
+         ratio = (float)(xMin-p1.x)/(p2.x-p1.x);
+         p1.y += (p2.y-p1.y)*ratio;
+         p1.z += (p2.z-p1.z)*ratio;
+         p1.x = xMin;
+      }
+      else if (o1.out.right) {
+         ratio = (float)(xMax-p1.x)/(p2.x-p1.x);
+         p1.y += (p2.y-p1.y)*ratio;
+         p1.z += (p2.z-p1.z)*ratio;
+         p1.x = xMax;
+      }
+      else if (o1.out.top) {
+         ratio = (float)(yMin-p1.y)/(p2.y-p1.y);
+         p1.x += (p2.x-p1.x)*ratio;
+         p1.z += (p2.z-p1.z)*ratio;
+         p1.y = yMin;
+      }
+      else if (o1.out.bottom) {
+         ratio = (float)(yMax-p1.y)/(p2.y-p1.y);
+         p1.x += (p2.x-p1.x)*ratio;
+         p1.z += (p2.z-p1.z)*ratio;
+         p1.y = yMax;
+      }
+      else if (o1.out.front) {
+         ratio = (float)(zMin-p1.z)/(p2.z-p1.z);
+         p1.x += (p2.x-p1.x)*ratio;
+         p1.y += (p2.y-p1.y)*ratio;
+         p1.z = zMin;
+      }
+      else if (o1.out.back) {
+         ratio = (float)(zMax-p1.z)/(p2.z-p1.z);
+         p1.x += (p2.x-p1.x)*ratio;
+         p1.y += (p2.y-p1.y)*ratio;
+         p1.z = zMax;
+      }
+      p1[0] = (p2[0]-p1[0])*ratio;
+      p1[1] = (p2[1]-p1[1])*ratio;
+      p1[2] = (p2[2]-p1[2])*ratio;
+      return clipLine(p1, p2, c1, c2);
+   }
+   else // point 2 is out of bounds
+      return clipLine(p2, p1, c2, c1);
 }
 
 // sorts points by x and returns whether they were resorted
